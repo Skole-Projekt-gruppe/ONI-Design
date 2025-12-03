@@ -1,0 +1,22 @@
+package dk.ek.onidesign.web;
+
+
+import dk.ek.onidesign.service.DashboardService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class DashboardRestController {
+
+    private final DashboardService dashboardService;
+
+    public DashboardRestController(DashboardService dashboardService) {
+        this.dashboardService = dashboardService;
+    }
+
+    @GetMapping("/api/dashboard")
+    public DashboardDto getDashboard() {
+        // Task 1: hardcode MODULE 01 (id = 1)
+        return dashboardService.getModuleDashboard(1L);
+    }
+}
