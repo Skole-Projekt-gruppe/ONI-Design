@@ -15,7 +15,7 @@ public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // genererer selv ID
     @Column(name = "module_id")
-    private int moduleId;
+    private Long moduleId;
 
     // One-to-One PackData
     @OneToOne(mappedBy = "module")
@@ -43,5 +43,83 @@ public class Module {
     @UpdateTimestamp // sætter selv dato og tid, når den updates
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public Module() {
+    }
+
+    public Module(Long moduleId, PackData packData, List<TestSequence> testSequences, String moduleName, String description, String overviewImageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.moduleId = moduleId;
+        this.packData = packData;
+        this.testSequences = testSequences;
+        this.moduleName = moduleName;
+        this.description = description;
+        this.overviewImageUrl = overviewImageUrl;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Long getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(Long moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public PackData getPackData() {
+        return packData;
+    }
+
+    public void setPackData(PackData packData) {
+        this.packData = packData;
+    }
+
+    public List<TestSequence> getTestSequences() {
+        return testSequences;
+    }
+
+    public void setTestSequences(List<TestSequence> testSequences) {
+        this.testSequences = testSequences;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getOverviewImageUrl() {
+        return overviewImageUrl;
+    }
+
+    public void setOverviewImageUrl(String overviewImageUrl) {
+        this.overviewImageUrl = overviewImageUrl;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
 

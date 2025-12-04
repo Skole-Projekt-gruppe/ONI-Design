@@ -11,7 +11,7 @@ public class PackData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pack_data_id")
-    private int packDataId;
+    private Long packDataId;
 
     // Owner Module
     @OneToOne
@@ -62,4 +62,154 @@ public class PackData {
 
     @Column(name = "peak_charge_time_min")
     private int peakChargeTimeMin;
+
+    public PackData() {
+    }
+
+    public PackData(Long packDataId, Module module, int cellQuantity, BigDecimal cellWeightKg, BigDecimal grossWeightKg, BigDecimal nominalCapacityKwh, BigDecimal peakCapacityKwh, BigDecimal nominalVoltageV, BigDecimal peakVoltageV, BigDecimal cutoffVoltageV, BigDecimal nominalDischargeA, BigDecimal peakDischargeA, BigDecimal nominalAcDcChargeA, int nominalChargeTimeMin, BigDecimal peakDcChargeA, int peakChargeTimeMin) {
+        this.packDataId = packDataId;
+        this.module = module;
+        this.cellQuantity = cellQuantity;
+        this.cellWeightKg = cellWeightKg;
+        this.grossWeightKg = grossWeightKg;
+        this.nominalCapacityKwh = nominalCapacityKwh;
+        this.peakCapacityKwh = peakCapacityKwh;
+        this.nominalVoltageV = nominalVoltageV;
+        this.peakVoltageV = peakVoltageV;
+        this.cutoffVoltageV = cutoffVoltageV;
+        this.nominalDischargeA = nominalDischargeA;
+        this.peakDischargeA = peakDischargeA;
+        this.nominalAcDcChargeA = nominalAcDcChargeA;
+        this.nominalChargeTimeMin = nominalChargeTimeMin;
+        this.peakDcChargeA = peakDcChargeA;
+        this.peakChargeTimeMin = peakChargeTimeMin;
+    }
+
+    public Long getPackDataId() {
+        return packDataId;
+    }
+
+    public void setPackDataId(Long packDataId) {
+        this.packDataId = packDataId;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    public int getCellQuantity() {
+        return cellQuantity;
+    }
+
+    public void setCellQuantity(int cellQuantity) {
+        this.cellQuantity = cellQuantity;
+    }
+
+    public BigDecimal getCellWeightKg() {
+        return cellWeightKg;
+    }
+
+    public void setCellWeightKg(BigDecimal cellWeightKg) {
+        this.cellWeightKg = cellWeightKg;
+    }
+
+    public BigDecimal getGrossWeightKg() {
+        return grossWeightKg;
+    }
+
+    public void setGrossWeightKg(BigDecimal grossWeightKg) {
+        this.grossWeightKg = grossWeightKg;
+    }
+
+    public BigDecimal getNominalCapacityKwh() {
+        return nominalCapacityKwh;
+    }
+
+    public void setNominalCapacityKwh(BigDecimal nominalCapacityKwh) {
+        this.nominalCapacityKwh = nominalCapacityKwh;
+    }
+
+    public BigDecimal getPeakCapacityKwh() {
+        return peakCapacityKwh;
+    }
+
+    public void setPeakCapacityKwh(BigDecimal peakCapacityKwh) {
+        this.peakCapacityKwh = peakCapacityKwh;
+    }
+
+    public BigDecimal getNominalVoltageV() {
+        return nominalVoltageV;
+    }
+
+    public void setNominalVoltageV(BigDecimal nominalVoltageV) {
+        this.nominalVoltageV = nominalVoltageV;
+    }
+
+    public BigDecimal getPeakVoltageV() {
+        return peakVoltageV;
+    }
+
+    public void setPeakVoltageV(BigDecimal peakVoltageV) {
+        this.peakVoltageV = peakVoltageV;
+    }
+
+    public BigDecimal getCutoffVoltageV() {
+        return cutoffVoltageV;
+    }
+
+    public void setCutoffVoltageV(BigDecimal cutoffVoltageV) {
+        this.cutoffVoltageV = cutoffVoltageV;
+    }
+
+    public BigDecimal getNominalDischargeA() {
+        return nominalDischargeA;
+    }
+
+    public void setNominalDischargeA(BigDecimal nominalDischargeA) {
+        this.nominalDischargeA = nominalDischargeA;
+    }
+
+    public BigDecimal getPeakDischargeA() {
+        return peakDischargeA;
+    }
+
+    public void setPeakDischargeA(BigDecimal peakDischargeA) {
+        this.peakDischargeA = peakDischargeA;
+    }
+
+    public BigDecimal getNominalAcDcChargeA() {
+        return nominalAcDcChargeA;
+    }
+
+    public void setNominalAcDcChargeA(BigDecimal nominalAcDcChargeA) {
+        this.nominalAcDcChargeA = nominalAcDcChargeA;
+    }
+
+    public int getNominalChargeTimeMin() {
+        return nominalChargeTimeMin;
+    }
+
+    public void setNominalChargeTimeMin(int nominalChargeTimeMin) {
+        this.nominalChargeTimeMin = nominalChargeTimeMin;
+    }
+
+    public BigDecimal getPeakDcChargeA() {
+        return peakDcChargeA;
+    }
+
+    public void setPeakDcChargeA(BigDecimal peakDcChargeA) {
+        this.peakDcChargeA = peakDcChargeA;
+    }
+
+    public int getPeakChargeTimeMin() {
+        return peakChargeTimeMin;
+    }
+
+    public void setPeakChargeTimeMin(int peakChargeTimeMin) {
+        this.peakChargeTimeMin = peakChargeTimeMin;
+    }
 }
