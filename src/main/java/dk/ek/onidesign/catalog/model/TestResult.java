@@ -54,4 +54,116 @@ public class TestResult {
 
     @Column(name = "fault_type")
     private String faultType;
+
+    public int getTestResultId() {
+        return testResultId;
+    }
+
+    public void setTestResultId(int testResultId) {
+        this.testResultId = testResultId;
+    }
+
+    public TestSequence getTestSequence() {
+        return testSequence;
+    }
+
+    public void setTestSequence(TestSequence testSequence) {
+        this.testSequence = testSequence;
+    }
+
+    public BigDecimal getStartingVoltageV() {
+        return StartingVoltageV;
+    }
+
+    public void setStartingVoltageV(BigDecimal startingVoltageV) {
+        StartingVoltageV = startingVoltageV;
+    }
+
+    public BigDecimal getPeakChargeVoltageV() {
+        return peakChargeVoltageV;
+    }
+
+    public void setPeakChargeVoltageV(BigDecimal peakChargeVoltageV) {
+        this.peakChargeVoltageV = peakChargeVoltageV;
+    }
+
+    public BigDecimal getDischargeVoltageV() {
+        return dischargeVoltageV;
+    }
+
+    public void setDischargeVoltageV(BigDecimal dischargeVoltageV) {
+        this.dischargeVoltageV = dischargeVoltageV;
+    }
+
+    public BigDecimal getVoltageImbalanceMaxV() {
+        return voltageImbalanceMaxV;
+    }
+
+    public void setVoltageImbalanceMaxV(BigDecimal voltageImbalanceMaxV) {
+        this.voltageImbalanceMaxV = voltageImbalanceMaxV;
+    }
+
+    public BigDecimal getNominalTempC() {
+        return nominalTempC;
+    }
+
+    public void setNominalTempC(BigDecimal nominalTempC) {
+        this.nominalTempC = nominalTempC;
+    }
+
+    public BigDecimal getMaxTempC() {
+        return maxTempC;
+    }
+
+    public void setMaxTempC(BigDecimal maxTempC) {
+        this.maxTempC = maxTempC;
+    }
+
+    public BigDecimal getMinTempC() {
+        return minTempC;
+    }
+
+    public void setMinTempC(BigDecimal minTempC) {
+        this.minTempC = minTempC;
+    }
+
+    public BigDecimal getMaxDischargeA() {
+        return maxDischargeA;
+    }
+
+    public void setMaxDischargeA(BigDecimal maxDischargeA) {
+        this.maxDischargeA = maxDischargeA;
+    }
+
+    public int getSustainedMaxDischargeSec() {
+        return sustainedMaxDischargeSec;
+    }
+
+    public void setSustainedMaxDischargeSec(int sustainedMaxDischargeSec) {
+        this.sustainedMaxDischargeSec = sustainedMaxDischargeSec;
+    }
+
+    public boolean isTempCutoffReached() {
+        return tempCutoffReached;
+    }
+
+    public void setTempCutoffReached(boolean tempCutoffReached) {
+        this.tempCutoffReached = tempCutoffReached;
+    }
+
+    public int getFaultsEncountered() {
+        return faultsEncountered;
+    }
+
+    public void setFaultsEncountered(int faultsEncountered) {
+        this.faultsEncountered = faultsEncountered;
+    }
+
+    public String getFaultType() {
+        return faultType;
+    }
+
+    public void setFaultType(String faultType) {
+        this.faultType = faultType;
+    }
 }

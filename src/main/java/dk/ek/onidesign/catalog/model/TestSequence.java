@@ -32,4 +32,52 @@ public class TestSequence {
 
     @Column(name = "sequence_order")
     private int sequenceOrder;
+
+    public int getTestSequenceId() {
+        return testSequenceId;
+    }
+
+    public void setTestSequenceId(int testSequenceId) {
+        this.testSequenceId = testSequenceId;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    public List<TestResult> getTestResults() {
+        return testResults;
+    }
+
+    public void setTestResults(List<TestResult> testResults) {
+        this.testResults = testResults;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getSequenceOrder() {
+        return sequenceOrder;
+    }
+
+    public void setSequenceOrder(int sequenceOrder) {
+        this.sequenceOrder = sequenceOrder;
+    }
 }

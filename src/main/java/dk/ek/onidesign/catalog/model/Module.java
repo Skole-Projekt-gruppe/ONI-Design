@@ -43,5 +43,69 @@ public class Module {
     @UpdateTimestamp // sætter selv dato og tid, når den updates
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public int getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(int moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public PackData getPackData() {
+        return packData;
+    }
+
+    public void setPackData(PackData packData) {
+        this.packData = packData;
+    }
+
+    public List<TestSequence> getTestSequences() {
+        return testSequences;
+    }
+
+    public void setTestSequences(List<TestSequence> testSequences) {
+        this.testSequences = testSequences;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getOverviewImageUrl() {
+        return overviewImageUrl;
+    }
+
+    public void setOverviewImageUrl(String overviewImageUrl) {
+        this.overviewImageUrl = overviewImageUrl;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
 
