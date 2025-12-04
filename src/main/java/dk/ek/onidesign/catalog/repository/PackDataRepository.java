@@ -1,4 +1,4 @@
-package dk.ek.onidesign.repository;
+package dk.ek.onidesign.catalog.repository;
 
 import dk.ek.onidesign.catalog.model.PackData;
 import org.springframework.data.jpa.repository.JpaRepository;

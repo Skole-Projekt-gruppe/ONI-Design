@@ -1,10 +1,10 @@
-package dk.ek.onidesign.service;
+package dk.ek.onidesign.catalog.service;
 
 import dk.ek.onidesign.entity.PackData;
 import dk.ek.onidesign.entity.Module;
-import dk.ek.onidesign.repository.ModuleRepository;
-import dk.ek.onidesign.repository.PackDataRepository;
-import dk.ek.onidesign.web.DashboardDto;
+import dk.ek.onidesign.catalog.repository.ModuleRepository;
+import dk.ek.onidesign.catalog.repository.PackDataRepository;
+import dk.ek.onidesign.catalog.web.DashboardDto;
 import org.springframework.stereotype.Service;
 
 @Service

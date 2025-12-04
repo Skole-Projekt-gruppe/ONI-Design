@@ -1,4 +1,4 @@
-package dk.ek.onidesign.web;
+package dk.ek.onidesign.catalog.web;
 
 import java.math.BigDecimal;
 
