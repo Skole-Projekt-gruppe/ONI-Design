@@ -1,7 +1,7 @@
 package dk.ek.onidesign.catalog.service;
 
-import dk.ek.onidesign.catalog.model.PackData;
-import dk.ek.onidesign.catalog.model.Module;
+import dk.ek.onidesign.catalog.entity.PackData;
+import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.repository.ModuleRepository;
 import dk.ek.onidesign.catalog.repository.PackDataRepository;
 import dk.ek.onidesign.catalog.dto.DashboardDto;
