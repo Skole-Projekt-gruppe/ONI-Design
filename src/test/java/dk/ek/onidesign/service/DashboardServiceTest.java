@@ -1,10 +1,11 @@
 package dk.ek.onidesign.service;
 
-import dk.ek.onidesign.entity.Module;
-import dk.ek.onidesign.entity.PackData;
-import dk.ek.onidesign.repository.ModuleRepository;
-import dk.ek.onidesign.repository.PackDataRepository;
-import dk.ek.onidesign.web.DashboardDto;
+import dk.ek.onidesign.catalog.model.Module;
+import dk.ek.onidesign.catalog.model.PackData;
+import dk.ek.onidesign.catalog.repository.ModuleRepository;
+import dk.ek.onidesign.catalog.repository.PackDataRepository;
+import dk.ek.onidesign.catalog.service.DashboardService;
+import dk.ek.onidesign.catalog.dto.DashboardDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,7 +1,8 @@
-package dk.ek.onidesign.web;
+package dk.ek.onidesign.catalog.web;
 
 
-import dk.ek.onidesign.service.DashboardService;
+import dk.ek.onidesign.catalog.dto.DashboardDto;
+import dk.ek.onidesign.catalog.service.DashboardService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
