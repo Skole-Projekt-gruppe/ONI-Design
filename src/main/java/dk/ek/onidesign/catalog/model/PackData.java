@@ -11,7 +11,7 @@ public class PackData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pack_data_id")
-    private int packDataId;
+    private Long packDataId;
 
     // Owner Module
     @OneToOne
@@ -63,11 +63,33 @@ public class PackData {
     @Column(name = "peak_charge_time_min")
     private int peakChargeTimeMin;
 
-    public int getPackDataId() {
+    public PackData() {
+    }
+
+    public PackData(Long packDataId, Module module, int cellQuantity, BigDecimal cellWeightKg, BigDecimal grossWeightKg, BigDecimal nominalCapacityKwh, BigDecimal peakCapacityKwh, BigDecimal nominalVoltageV, BigDecimal peakVoltageV, BigDecimal cutoffVoltageV, BigDecimal nominalDischargeA, BigDecimal peakDischargeA, BigDecimal nominalAcDcChargeA, int nominalChargeTimeMin, BigDecimal peakDcChargeA, int peakChargeTimeMin) {
+        this.packDataId = packDataId;
+        this.module = module;
+        this.cellQuantity = cellQuantity;
+        this.cellWeightKg = cellWeightKg;
+        this.grossWeightKg = grossWeightKg;
+        this.nominalCapacityKwh = nominalCapacityKwh;
+        this.peakCapacityKwh = peakCapacityKwh;
+        this.nominalVoltageV = nominalVoltageV;
+        this.peakVoltageV = peakVoltageV;
+        this.cutoffVoltageV = cutoffVoltageV;
+        this.nominalDischargeA = nominalDischargeA;
+        this.peakDischargeA = peakDischargeA;
+        this.nominalAcDcChargeA = nominalAcDcChargeA;
+        this.nominalChargeTimeMin = nominalChargeTimeMin;
+        this.peakDcChargeA = peakDcChargeA;
+        this.peakChargeTimeMin = peakChargeTimeMin;
+    }
+
+    public Long getPackDataId() {
         return packDataId;
     }
 
-    public void setPackDataId(int packDataId) {
+    public void setPackDataId(Long packDataId) {
         this.packDataId = packDataId;
     }
 

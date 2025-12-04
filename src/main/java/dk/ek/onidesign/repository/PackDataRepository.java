@@ -1,6 +1,6 @@
 package dk.ek.onidesign.repository;
 
-import dk.ek.onidesign.entity.PackData;
+import dk.ek.onidesign.catalog.model.PackData;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PackDataRepository extends JpaRepository<PackData, Long> {

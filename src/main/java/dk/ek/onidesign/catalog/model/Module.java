@@ -15,7 +15,7 @@ public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // genererer selv ID
     @Column(name = "module_id")
-    private int moduleId;
+    private Long moduleId;
 
     // One-to-One PackData
     @OneToOne(mappedBy = "module")
@@ -44,11 +44,25 @@ public class Module {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public int getModuleId() {
+    public Module() {
+    }
+
+    public Module(Long moduleId, PackData packData, List<TestSequence> testSequences, String moduleName, String description, String overviewImageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.moduleId = moduleId;
+        this.packData = packData;
+        this.testSequences = testSequences;
+        this.moduleName = moduleName;
+        this.description = description;
+        this.overviewImageUrl = overviewImageUrl;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Long getModuleId() {
         return moduleId;
     }
 
-    public void setModuleId(int moduleId) {
+    public void setModuleId(Long moduleId) {
         this.moduleId = moduleId;
     }
 

@@ -12,7 +12,7 @@ public class TestResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "test_result_id")
-    private int testResultId;
+    private Long testResultId;
 
     // Many-to-One TestSequence
     @ManyToOne
@@ -55,11 +55,31 @@ public class TestResult {
     @Column(name = "fault_type")
     private String faultType;
 
-    public int getTestResultId() {
+    public TestResult() {
+    }
+
+    public TestResult(Long testResultId, TestSequence testSequence, BigDecimal startingVoltageV, BigDecimal peakChargeVoltageV, BigDecimal dischargeVoltageV, BigDecimal voltageImbalanceMaxV, BigDecimal nominalTempC, BigDecimal maxTempC, BigDecimal minTempC, BigDecimal maxDischargeA, int sustainedMaxDischargeSec, boolean tempCutoffReached, int faultsEncountered, String faultType) {
+        this.testResultId = testResultId;
+        this.testSequence = testSequence;
+        StartingVoltageV = startingVoltageV;
+        this.peakChargeVoltageV = peakChargeVoltageV;
+        this.dischargeVoltageV = dischargeVoltageV;
+        this.voltageImbalanceMaxV = voltageImbalanceMaxV;
+        this.nominalTempC = nominalTempC;
+        this.maxTempC = maxTempC;
+        this.minTempC = minTempC;
+        this.maxDischargeA = maxDischargeA;
+        this.sustainedMaxDischargeSec = sustainedMaxDischargeSec;
+        this.tempCutoffReached = tempCutoffReached;
+        this.faultsEncountered = faultsEncountered;
+        this.faultType = faultType;
+    }
+
+    public Long getTestResultId() {
         return testResultId;
     }
 
-    public void setTestResultId(int testResultId) {
+    public void setTestResultId(Long testResultId) {
         this.testResultId = testResultId;
     }
 

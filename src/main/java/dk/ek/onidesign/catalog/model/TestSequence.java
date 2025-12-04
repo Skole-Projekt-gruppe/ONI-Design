@@ -12,7 +12,7 @@ public class TestSequence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "test_sequence_id")
-    private int testSequenceId;
+    private Long testSequenceId;
 
     // Many-to-One Module
     @ManyToOne
@@ -33,11 +33,23 @@ public class TestSequence {
     @Column(name = "sequence_order")
     private int sequenceOrder;
 
-    public int getTestSequenceId() {
+    public TestSequence() {
+    }
+
+    public TestSequence(Long testSequenceId, Module module, List<TestResult> testResults, String name, String description, int sequenceOrder) {
+        this.testSequenceId = testSequenceId;
+        this.module = module;
+        this.testResults = testResults;
+        this.name = name;
+        this.description = description;
+        this.sequenceOrder = sequenceOrder;
+    }
+
+    public Long getTestSequenceId() {
         return testSequenceId;
     }
 
-    public void setTestSequenceId(int testSequenceId) {
+    public void setTestSequenceId(Long testSequenceId) {
         this.testSequenceId = testSequenceId;
     }
 
