@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Logging</title>
+</head>
+<body>
+
+<form>
+    <fieldset>
+        <legend>Test Sequence Logging:</legend>
+
+        <div class="form-row">
+            <label for="testSequenceName">Name: </label>
+            <input type="text" name="testSequenceName" id="testSequenceName" placeholder="Test Sequence Name">
+        </div>
+
+        <div class="form-row">
+            <label for="testSequenceDescription">Description: </label>
+            <textarea name="testSequenceDescription" id="testSequenceDescription" cols="30" rows="5"
+                      placeholder="Test Sequence Description..."></textarea>
+        </div>
+
+        <div class="form-row">
+            <label for="sequenceOrder">Sequence Order: </label>
+            <input type="number" name="sequenceOrder" id="sequenceOrder" placeholder="Order in sequence">
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Test Result Logging:</legend>
+
+        <div class="form-row">
+            <label for="startingVoltageV">Starting Voltage: </label>
+            <input type="number" name="startingVoltageV" id="startingVoltageV" placeholder="Starting Voltage">
+            <span>V</span>
+        </div>
+
+        <div class="form-row">
+            <label for="peakChargeVoltageV">Peak Charge Voltage: </label>
+            <input type="number" name="peakChargeVoltageV" id="peakChargeVoltageV" placeholder="Peak Charge Voltage">
+            <span>V</span>
+        </div>
+
+        <div class="form-row">
+            <label for="dischargeVoltageV">Discharge Voltage: </label>
+            <input type="number" name="dischargeVoltageV" id="dischargeVoltageV" placeholder="Discharge Voltage">
+            <span>V</span>
+        </div>
+
+        <div class="form-row">
+            <label for="voltageImbalanceMaxV">Voltage Imbalance Max: </label>
+            <input type="number" name="voltageImbalanceMaxV" id="voltageImbalanceMaxV"
+                   placeholder="Max Voltage Imbalance">
+            <span>V</span>
+        </div>
+
+        <div class="form-row">
+            <label for="nominalTempC">Nominal Temperature: </label>
+            <input type="number" name="nominalTempC" id="nominalTempC" placeholder="Nominal Temperature">
+            <span>°C</span>
+        </div>
+
+        <div class="form-row">
+            <label for="maxTempC">Max Temperature: </label>
+            <input type="number" name="maxTempC" id="maxTempC" placeholder="Max Temperature">
+            <span>°C</span>
+        </div>
+
+        <div class="form-row">
+            <label for="minTempC">Min Temperature: </label>
+            <input type="number" name="minTempC" id="minTempC" placeholder="Min Temperature">
+            <span>°C</span>
+        </div>
+
+        <div class="form-row">
+            <label for="maxDischargeA">Max Discharge: </label>
+            <input type="number" name="maxDischargeA" id="maxDischargeA" placeholder="Max Discharge Current">
+            <span>A</span>
+        </div>
+
+        <div class="form-row">
+            <label for="sustainedMaxDischargeSec">Sustained Max Discharge Time: </label>
+            <input type="number" name="sustainedMaxDischargeSec" id="sustainedMaxDischargeSec"
+                   placeholder="Sustained Max Discharge Time">
+            <span>sec</span>
+        </div>
+
+        <div class="form-row">
+            <label for="tempCutoffReached">Temperature Cutoff Reached: </label>
+            <input type="checkbox" name="tempCutoffReached" id="tempCutoffReached">
+        </div>
+
+        <div class="form-row">
+            <label for="faultsEncountered">Faults Encountered: </label>
+            <input type="number" name="faultsEncountered" id="faultsEncountered" placeholder="Number of Faults">
+        </div>
+
+        <div class="form-row">
+            <label for="faultType">Fault Type: </label>
+            <input type="text" name="faultType" id="faultType" placeholder="Fault Type">
+        </div>
+    </fieldset>
+
+    <input type="reset" value="Reset">
+    <input type="submit" value=Submit>
+</form>
+
+</body>
+</html>
