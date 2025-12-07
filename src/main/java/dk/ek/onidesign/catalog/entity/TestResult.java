@@ -1,8 +1,7 @@
-package dk.ek.onidesign.catalog.model;
+package dk.ek.onidesign.catalog.entity;
 
 import jakarta.persistence.*;
 
-import javax.naming.Name;
 import java.math.BigDecimal;
 
 @Entity

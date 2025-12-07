@@ -1,4 +1,4 @@
-package dk.ek.onidesign.catalog.model;
+package dk.ek.onidesign.catalog.entity;
 
 import jakarta.persistence.*;
 

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Module Logging</title>
+</head>
+<body>
+
+<form>
+    <fieldset>
+        <legend>Module Logging:</legend>
+
+        <div class="form-row">
+            <label for="moduleName">Module name: </label>
+            <input type="text" name="moduleName" id="moduleName" placeholder="Module Name">
+        </div>
+
+        <div class="form-row">
+            <label for="description">Description: </label>
+            <textarea name="description" id="description" cols="30" rows="10" placeholder="Module Description..."></textarea>
+        </div>
+
+        <div class="form-row">
+            <label for="overviewImageUrl">Url for picture:</label>
+            <input type="text" name="overviewImageUrl" id="overviewImageUrl" placeholder="URL for picture">
+        </div>
+    </fieldset>
+
+
+    <fieldset>
+        <legend>Pack Data Logging:</legend>
+
+        <div class="form-row">
+            <label for="cellQuantity">Cell Quantity: </label>
+            <input type="number" name="cellQuantity" id="cellQuantity" placeholder="Cell Quantity">
+            <span>cells</span>
+        </div>
+
+        <div class="form-row">
+            <label for="cellWeightKg">Cell Weight: </label>
+            <input type="number" name="cellWeightKg" id="cellWeightKg"
+                   placeholder="Cell Weight in kilograms">
+            <span>Kg</span>
+        </div>
+
+        <div class="form-row">
+            <label for="grossWeightKg">Gross Weight: </label>
+            <input type="number" name="grossWeightKg" id="grossWeightKg"
+                   placeholder="Gross Weight in kilograms">
+            <span>Kg</span>
+        </div>
+
+        <div class="form-row">
+            <label for="nominalCapacityKwh">Nominal Capacity: </label>
+            <input type="number" name="nominalCapacityKwh" id="nominalCapacityKwh"
+                   placeholder="Nominal Capacity in kWh">
+            <span>kWh</span>
+        </div>
+
+        <div class="form-row">
+            <label for="peakCapacityKwh">Peak Capacity: </label>
+            <input type="number" name="peakCapacityKwh" id="peakCapacityKwh"
+                   placeholder="Peak Capacity in kWh">
+            <span>kWh</span>
+        </div>
+
+        <div class="form-row">
+            <label for="nominalVoltageV">Nominal Voltage: </label>
+            <input type="number" name="nominalVoltageV" id="nominalVoltageV" placeholder="Nominal Voltage">
+            <span>V</span>
+        </div>
+
+        <div class="form-row">
+            <label for="peakVoltageV">Peak Voltage: </label>
+            <input type="number" name="peakVoltageV" id="peakVoltageV" placeholder="Peak Voltage">
+            <span>V</span>
+        </div>
+
+        <div class="form-row">
+            <label for="cutoffVoltageV">Cutoff Voltage: </label>
+            <input type="number" name="cutoffVoltageV" id="cutoffVoltageV" placeholder="Cutoff Voltage">
+            <span>V</span>
+        </div>
+
+        <div class="form-row">
+            <label for="nominalDischargeA">Nominal Discharge: </label>
+            <input type="number" name="nominalDischargeA" id="nominalDischargeA"
+                   placeholder="Nominal Discharge Current">
+            <span>A</span>
+        </div>
+
+        <div class="form-row">
+            <label for="peakDischargeA">Peak Discharge: </label>
+            <input type="number" name="peakDischargeA" id="peakDischargeA"
+                   placeholder="Peak Discharge Current">
+            <span>A</span>
+        </div>
+
+        <div class="form-row">
+            <label for="nominalAcDcChargeA">Nominal AC/DC Charge: </label>
+            <input type="number" name="nominalAcDcChargeA" id="nominalAcDcChargeA"
+                   placeholder="Nominal AC/DC Charge Current">
+            <span>A</span>
+        </div>
+
+        <div class="form-row">
+            <label for="nominalChargeTimeMin">Nominal Charge Time: </label>
+            <input type="number" name="nominalChargeTimeMin" id="nominalChargeTimeMin"
+                   placeholder="Nominal Charge Time">
+            <span>min</span>
+        </div>
+
+        <div class="form-row">
+            <label for="peakDcChargeA">Peak DC Charge: </label>
+            <input type="number" name="peakDcChargeA" id="peakDcChargeA"
+                   placeholder="Peak DC Charge Current">
+            <span>A</span>
+        </div>
+
+        <div class="form-row">
+            <label for="peakChargeTimeMin">Peak Charge Time: </label>
+            <input type="number" name="peakChargeTimeMin" id="peakChargeTimeMin"
+                   placeholder="Peak Charge Time">
+            <span>min</span>
+        </div>
+    </fieldset>
+
+    <input type="reset" value="Reset">
+    <input type="submit" value=Submit>
+</form>
+
+</body>
+</html>
