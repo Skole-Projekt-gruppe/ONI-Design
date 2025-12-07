@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ModuleRepository extends JpaRepository<Module, Long> {
+public interface ModuleRepositoryC extends JpaRepository<Module, Long> {
 
     // Søge i modulnavn
     List<Module> findByModuleNameContainingIgnoreCase(String moduleName);

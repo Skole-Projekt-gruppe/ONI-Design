@@ -2,18 +2,19 @@ package dk.ek.onidesign.catalog.service;
 
 import dk.ek.onidesign.catalog.exception.NotFoundException;
 import dk.ek.onidesign.catalog.model.Module;
-import dk.ek.onidesign.catalog.repository.ModuleRepository;
+import dk.ek.onidesign.catalog.repository.ModuleRepositoryC;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ModuleService {
+public class ModuleServiceC
+{
 
-    private final ModuleRepository repository;
+    private final ModuleRepositoryC repository;
 
-    public ModuleService(ModuleRepository repository) {
+    public ModuleServiceC(ModuleRepositoryC repository) {
         this.repository = repository;
     }
 

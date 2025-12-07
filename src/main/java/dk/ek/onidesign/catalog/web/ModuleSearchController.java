@@ -1,7 +1,7 @@
 package dk.ek.onidesign.catalog.web;
 
 import dk.ek.onidesign.catalog.model.Module;
-import dk.ek.onidesign.catalog.service.ModuleService;
+import dk.ek.onidesign.catalog.service.ModuleServiceC;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,9 +11,9 @@ import java.util.List;
 @RestController
 public class ModuleSearchController {
 
-    private final ModuleService service;
+    private final ModuleServiceC service;
 
-    public ModuleSearchController(ModuleService service) {
+    public ModuleSearchController(ModuleServiceC service) {
         this.service = service;
     }
 

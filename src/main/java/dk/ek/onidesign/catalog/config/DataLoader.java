@@ -3,7 +3,7 @@ package dk.ek.onidesign.catalog.config;
 
 import dk.ek.onidesign.catalog.model.Module;
 import dk.ek.onidesign.catalog.model.PackData;
-import dk.ek.onidesign.catalog.repository.ModuleRepository;
+import dk.ek.onidesign.catalog.repository.ModuleRepositoryC;
 import dk.ek.onidesign.catalog.repository.PackDataRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class DataLoader {
 
     @Bean
-    CommandLineRunner initData(ModuleRepository moduleRepository,
+    CommandLineRunner initData(ModuleRepositoryC moduleRepository,
                                PackDataRepository packDataRepository) {
         return args -> {
             if (moduleRepository.count() == 0) {
