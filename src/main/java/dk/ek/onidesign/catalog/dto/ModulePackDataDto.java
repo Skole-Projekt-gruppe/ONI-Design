@@ -2,9 +2,15 @@ package dk.ek.onidesign.catalog.dto;
 
 import java.math.BigDecimal;
 
-public record PackDataDto(
-        Long packDataId,
+public record ModulePackDataDto(
+        // Module
         Long moduleId,
+        String moduleName,
+        String description,
+        String overviewImageUrl,
+
+        // PackData
+        Long packDataId,
         int cellQuantity,
         BigDecimal cellWeightKg,
         BigDecimal grossWeightKg,
@@ -19,4 +25,5 @@ public record PackDataDto(
         int nominalChargeTimeMin,
         BigDecimal peakDcChargeA,
         int peakChargeTimeMin
-) {}
+) {
+}

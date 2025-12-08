@@ -13,7 +13,6 @@ public class PackData {
     @Column(name = "pack_data_id")
     private Long packDataId;
 
-    // Owner Module
     @OneToOne
     @JoinColumn(name = "module_id")
     private Module module;
@@ -66,8 +65,7 @@ public class PackData {
     public PackData() {
     }
 
-    public PackData(Long packDataId, Module module, int cellQuantity, BigDecimal cellWeightKg, BigDecimal grossWeightKg, BigDecimal nominalCapacityKwh, BigDecimal peakCapacityKwh, BigDecimal nominalVoltageV, BigDecimal peakVoltageV, BigDecimal cutoffVoltageV, BigDecimal nominalDischargeA, BigDecimal peakDischargeA, BigDecimal nominalAcDcChargeA, int nominalChargeTimeMin, BigDecimal peakDcChargeA, int peakChargeTimeMin) {
-        this.packDataId = packDataId;
+    public PackData(Module module, int cellQuantity, BigDecimal cellWeightKg, BigDecimal grossWeightKg, BigDecimal nominalCapacityKwh, BigDecimal peakCapacityKwh, BigDecimal nominalVoltageV, BigDecimal peakVoltageV, BigDecimal cutoffVoltageV, BigDecimal nominalDischargeA, BigDecimal peakDischargeA, BigDecimal nominalAcDcChargeA, int nominalChargeTimeMin, BigDecimal peakDcChargeA, int peakChargeTimeMin) {
         this.module = module;
         this.cellQuantity = cellQuantity;
         this.cellWeightKg = cellWeightKg;
@@ -97,9 +95,15 @@ public class PackData {
         return module;
     }
 
+    // sikrer bi-direktionalitet.
+    // hvis module ikke er det her, så sæt den til det her.
     public void setModule(Module module) {
         this.module = module;
+        if (module.getPackData() != this) {
+            module.setPackData(this);
+        }
     }
+
 
     public int getCellQuantity() {
         return cellQuantity;
