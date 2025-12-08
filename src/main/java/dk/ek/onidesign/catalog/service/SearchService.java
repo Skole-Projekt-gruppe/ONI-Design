@@ -1,7 +1,7 @@
 package dk.ek.onidesign.catalog.service;
 
 import dk.ek.onidesign.catalog.exception.NotFoundException;
-import dk.ek.onidesign.catalog.model.Module;
+import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.repository.ModuleRepositoryC;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

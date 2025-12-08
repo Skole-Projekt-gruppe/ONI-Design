@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ModulePageController {
 
-    @GetMapping("/modules")
+    @GetMapping("/Search")
     public String showModulesPage() {
-        return "modules.html"; // loader static/modules.html
+        return "SearchAndSort.html";
     }
 }
