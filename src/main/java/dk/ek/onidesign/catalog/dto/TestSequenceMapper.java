@@ -5,23 +5,23 @@ import dk.ek.onidesign.catalog.entity.TestSequence;
 
 public class TestSequenceMapper {
 
-    public static TestSequenceDto toDto(TestSequence seq) {
+    public static TestSequenceDto toDto(TestSequence ts) {
         return new TestSequenceDto(
-                seq.getTestSequenceId(),
-                seq.getModule().getModuleId(),
-                seq.getName(),
-                seq.getDescription(),
-                seq.getSequenceOrder()
+                ts.getTestSequenceId(),
+                ts.getModule().getModuleId(),
+                ts.getName(),
+                ts.getDescription(),
+                ts.getSequenceOrder()
         );
     }
 
     public static TestSequence toEntity(TestSequenceDto dto, Module module) {
-        TestSequence t = new TestSequence();
-        t.setTestSequenceId(dto.testSequenceId());
-        t.setModule(module);
-        t.setName(dto.name());
-        t.setDescription(dto.description());
-        t.setSequenceOrder(dto.sequenceOrder());
-        return t;
+        TestSequence ts = new TestSequence();
+        ts.setTestSequenceId(dto.testSequenceId());
+        ts.setModule(module);
+        ts.setName(dto.name());
+        ts.setDescription(dto.description());
+        ts.setSequenceOrder(dto.sequenceOrder());
+        return ts;
     }
 }

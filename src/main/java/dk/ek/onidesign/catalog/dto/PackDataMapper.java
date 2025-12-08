@@ -27,27 +27,27 @@ public class PackDataMapper {
     }
 
     public static PackData toEntity(PackDataDto dto, Module module) {
-        PackData p = new PackData();
-        p.setPackDataId(dto.packDataId());
-        p.setModule(module);
+        PackData packData = new PackData();
+        packData.setPackDataId(dto.packDataId());
+        packData.setModule(module);
 
-        p.setCellQuantity(dto.cellQuantity());
-        p.setCellWeightKg(dto.cellWeightKg());
-        p.setGrossWeightKg(dto.grossWeightKg());
-        p.setNominalCapacityKwh(dto.nominalCapacityKwh());
-        p.setPeakCapacityKwh(dto.peakCapacityKwh());
-        p.setNominalVoltageV(dto.nominalVoltageV());
-        p.setPeakVoltageV(dto.peakVoltageV());
-        p.setCutoffVoltageV(dto.cutoffVoltageV());
+        packData.setCellQuantity(dto.cellQuantity());
+        packData.setCellWeightKg(dto.cellWeightKg());
+        packData.setGrossWeightKg(dto.grossWeightKg());
+        packData.setNominalCapacityKwh(dto.nominalCapacityKwh());
+        packData.setPeakCapacityKwh(dto.peakCapacityKwh());
+        packData.setNominalVoltageV(dto.nominalVoltageV());
+        packData.setPeakVoltageV(dto.peakVoltageV());
+        packData.setCutoffVoltageV(dto.cutoffVoltageV());
 
-        p.setNominalDischargeA(dto.nominalDischargeA());
-        p.setPeakDischargeA(dto.peakDischargeA());
-        p.setNominalAcDcChargeA(dto.nominalAcDcChargeA());
-        p.setNominalChargeTimeMin(dto.nominalChargeTimeMin());
-        p.setPeakDcChargeA(dto.peakDcChargeA());
-        p.setPeakChargeTimeMin(dto.peakChargeTimeMin());
+        packData.setNominalDischargeA(dto.nominalDischargeA());
+        packData.setPeakDischargeA(dto.peakDischargeA());
+        packData.setNominalAcDcChargeA(dto.nominalAcDcChargeA());
+        packData.setNominalChargeTimeMin(dto.nominalChargeTimeMin());
+        packData.setPeakDcChargeA(dto.peakDcChargeA());
+        packData.setPeakChargeTimeMin(dto.peakChargeTimeMin());
 
-        return p;
+        return packData;
     }
 
 }

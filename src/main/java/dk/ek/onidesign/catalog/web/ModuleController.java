@@ -1,13 +1,11 @@
 package dk.ek.onidesign.catalog.web;
 
-import dk.ek.onidesign.catalog.dto.ModuleDto;
+import dk.ek.onidesign.catalog.dto.ModulePackDataDto;
+import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.service.ModuleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/modules")
@@ -19,4 +17,9 @@ public class ModuleController {
         this.moduleService = moduleService;
     }
 
+    @PostMapping("/packdata")
+    public ResponseEntity<ModulePackDataDto> createModulePackData(@RequestBody ModulePackDataDto dto) {
+        ModulePackDataDto savedDto = moduleService.createModulePackData(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedDto);
+    }
 }
