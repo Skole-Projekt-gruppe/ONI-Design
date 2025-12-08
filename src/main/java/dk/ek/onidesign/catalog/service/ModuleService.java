@@ -15,8 +15,9 @@ public class ModuleService {
         this.moduleRepository = moduleRepository;
     }
 
-    public void createModule(ModuleDto moduleDto) {
+    public ModuleDto createModule(ModuleDto moduleDto) {
         Module module = ModuleMapper.toEntity(moduleDto);
-        moduleRepository.save(module);
+        Module savedModule = moduleRepository.save(module);
+        return ModuleMapper.toDto(savedModule);
     }
 }
