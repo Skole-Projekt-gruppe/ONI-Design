@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public record PackDataDto(
         Long packDataId,
-        ModuleDto module,
+        Long moduleId,
         int cellQuantity,
         BigDecimal cellWeightKg,
         BigDecimal grossWeightKg,
@@ -19,5 +19,4 @@ public record PackDataDto(
         int nominalChargeTimeMin,
         BigDecimal peakDcChargeA,
         int peakChargeTimeMin
-) {
-}
+) {}

@@ -16,9 +16,4 @@ public class TestResultService {
         this.testResultRepository = testResultRepository;
     }
 
-    public TestResultDto createTestResult(TestResultDto testResultDto) {
-        TestResult testResult = TestResultMapper.toEntity(testResultDto);
-        TestResult savedTestResult = testResultRepository.save(testResult);
-        return TestResultMapper.toDto(savedTestResult);
-    }
 }

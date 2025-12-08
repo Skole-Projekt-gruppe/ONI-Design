@@ -15,9 +15,4 @@ public class TestSequenceService {
         this.testSequenceRepository = testSequenceRepository;
     }
 
-    public TestSequenceDto createTestSequence(TestSequenceDto testSequenceDto) {
-        TestSequence testSequence = TestSequenceMapper.toEntity(testSequenceDto);
-        TestSequence savedTestSequence = testSequenceRepository.save(testSequence);
-        return TestSequenceMapper.toDto(savedTestSequence);
-    }
 }

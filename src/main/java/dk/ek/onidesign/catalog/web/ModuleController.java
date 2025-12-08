@@ -19,9 +19,4 @@ public class ModuleController {
         this.moduleService = moduleService;
     }
 
-    @PostMapping
-    public ResponseEntity<ModuleDto> createModule(@RequestBody ModuleDto moduleDto) {
-        ModuleDto newModule = moduleService.createModule(moduleDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newModule);
-    }
 }

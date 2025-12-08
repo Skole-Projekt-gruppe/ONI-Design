@@ -19,11 +19,4 @@ public class ModulePackDataController {
         this.modulePackDataService = modulePackDataService;
     }
 
-    @PostMapping
-    public ResponseEntity<ModulePackDataDto> createModulePackData(@RequestBody ModulePackDataDto modulePackDataDto) {
-        System.out.println("LLLL" + modulePackDataDto);
-        ModulePackDataDto newModulePackData = modulePackDataService.createModulePackData(modulePackDataDto);
-        System.out.println("LLL" + newModulePackData);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newModulePackData);
-    }
 }

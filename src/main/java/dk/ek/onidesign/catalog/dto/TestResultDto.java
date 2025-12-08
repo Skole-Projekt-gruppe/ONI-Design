@@ -1,12 +1,10 @@
 package dk.ek.onidesign.catalog.dto;
 
-import dk.ek.onidesign.catalog.entity.TestSequence;
-
 import java.math.BigDecimal;
 
 public record TestResultDto(
         Long testResultId,
-        TestSequenceDto testSequence,
+        Long testSequenceId,
         BigDecimal startingVoltageV,
         BigDecimal peakChargeVoltageV,
         BigDecimal dischargeVoltageV,

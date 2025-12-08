@@ -16,10 +16,4 @@ public class ModulePackDataService {
         this.packDataService = packDataService;
     }
 
-    public ModulePackDataDto createModulePackData(ModulePackDataDto modulePackDataDto) {
-        ModuleDto module = moduleService.createModule(modulePackDataDto.module());
-        PackDataDto packData = packDataService.createPackData(modulePackDataDto.packData());
-
-        return new ModulePackDataDto(module,packData);
-    }
 }

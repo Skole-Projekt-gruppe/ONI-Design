@@ -19,9 +19,4 @@ public class PackDataController {
         this.packDataService = packDataService;
     }
 
-    @PostMapping
-    public ResponseEntity<PackDataDto> createPackData(@RequestBody PackDataDto packDataDto) {
-        PackDataDto newPackData = packDataService.createPackData(packDataDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newPackData);
-    }
 }

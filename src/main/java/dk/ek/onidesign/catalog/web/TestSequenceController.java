@@ -19,9 +19,4 @@ public class TestSequenceController {
         this.testSequenceService = testSequenceService;
     }
 
-    @PostMapping
-    public ResponseEntity<TestSequenceDto> createTestSequence(@RequestBody TestSequenceDto testSequenceDto) {
-        TestSequenceDto newTestSequence = testSequenceService.createTestSequence(testSequenceDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newTestSequence);
-    }
 }

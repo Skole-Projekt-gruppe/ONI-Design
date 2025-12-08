@@ -19,9 +19,4 @@ public class TestResultController {
         this.testResultService = testResultService;
     }
 
-    @PostMapping
-    public ResponseEntity<TestResultDto> createTestResult(@RequestBody TestResultDto testResultDto) {
-        TestResultDto newTestResult = testResultService.createTestResult(testResultDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newTestResult);
-    }
 }

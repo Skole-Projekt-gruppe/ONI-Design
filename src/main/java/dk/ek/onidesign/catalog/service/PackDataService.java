@@ -15,9 +15,4 @@ public class PackDataService {
         this.packDataRepository = packDataRepository;
     }
 
-    public PackDataDto createPackData(PackDataDto packDataDto) {
-        PackData packData = PackDataMapper.toEntity(packDataDto);
-        PackData savedPackData = packDataRepository.save(packData);
-        return PackDataMapper.toDto(savedPackData);
-    }
 }
