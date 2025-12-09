@@ -1,50 +1,53 @@
 package dk.ek.onidesign.catalog.dto;
 
+import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.entity.PackData;
 
 public class PackDataMapper {
 
-    public static PackDataDto toDto(PackData packData) {
+    public static PackDataDto toDto(PackData pack) {
         return new PackDataDto(
-                packData.getPackDataId(),
-                ModuleMapper.toDto(packData.getModule()),
-                packData.getCellQuantity(),
-                packData.getCellWeightKg(),
-                packData.getGrossWeightKg(),
-                packData.getNominalCapacityKwh(),
-                packData.getPeakCapacityKwh(),
-                packData.getNominalVoltageV(),
-                packData.getPeakVoltageV(),
-                packData.getCutoffVoltageV(),
-                packData.getNominalDischargeA(),
-                packData.getPeakDischargeA(),
-                packData.getNominalAcDcChargeA(),
-                packData.getNominalChargeTimeMin(),
-                packData.getPeakDcChargeA(),
-                packData.getPeakChargeTimeMin()
+                pack.getPackDataId(),
+                pack.getModule().getModuleId(),
+                pack.getCellQuantity(),
+                pack.getCellWeightKg(),
+                pack.getGrossWeightKg(),
+                pack.getNominalCapacityKwh(),
+                pack.getPeakCapacityKwh(),
+                pack.getNominalVoltageV(),
+                pack.getPeakVoltageV(),
+                pack.getCutoffVoltageV(),
+                pack.getNominalDischargeA(),
+                pack.getPeakDischargeA(),
+                pack.getNominalAcDcChargeA(),
+                pack.getNominalChargeTimeMin(),
+                pack.getPeakDcChargeA(),
+                pack.getPeakChargeTimeMin()
         );
     }
 
-    public static PackData toEntity(PackDataDto packDataDto) {
+    public static PackData toEntity(PackDataDto dto, Module module) {
         PackData packData = new PackData();
+        packData.setPackDataId(dto.packDataId());
+        packData.setModule(module);
 
-        packData.setPackDataId(packDataDto.packDataId());
-        packData.setModule(ModuleMapper.toEntity(packDataDto.module()));
-        packData.setCellQuantity(packDataDto.cellQuantity());
-        packData.setCellWeightKg(packDataDto.cellWeightKg());
-        packData.setGrossWeightKg(packDataDto.grossWeightKg());
-        packData.setNominalCapacityKwh(packDataDto.nominalCapacityKwh());
-        packData.setPeakCapacityKwh(packDataDto.peakCapacityKwh());
-        packData.setNominalVoltageV(packDataDto.nominalVoltageV());
-        packData.setPeakVoltageV(packDataDto.peakVoltageV());
-        packData.setCutoffVoltageV(packDataDto.cutoffVoltageV());
-        packData.setNominalDischargeA(packDataDto.nominalDischargeA());
-        packData.setPeakDischargeA(packDataDto.peakDischargeA());
-        packData.setNominalAcDcChargeA(packDataDto.nominalAcDcChargeA());
-        packData.setNominalChargeTimeMin(packDataDto.nominalChargeTimeMin());
-        packData.setPeakDcChargeA(packDataDto.peakDcChargeA());
-        packData.setPeakChargeTimeMin(packDataDto.peakChargeTimeMin());
+        packData.setCellQuantity(dto.cellQuantity());
+        packData.setCellWeightKg(dto.cellWeightKg());
+        packData.setGrossWeightKg(dto.grossWeightKg());
+        packData.setNominalCapacityKwh(dto.nominalCapacityKwh());
+        packData.setPeakCapacityKwh(dto.peakCapacityKwh());
+        packData.setNominalVoltageV(dto.nominalVoltageV());
+        packData.setPeakVoltageV(dto.peakVoltageV());
+        packData.setCutoffVoltageV(dto.cutoffVoltageV());
+
+        packData.setNominalDischargeA(dto.nominalDischargeA());
+        packData.setPeakDischargeA(dto.peakDischargeA());
+        packData.setNominalAcDcChargeA(dto.nominalAcDcChargeA());
+        packData.setNominalChargeTimeMin(dto.nominalChargeTimeMin());
+        packData.setPeakDcChargeA(dto.peakDcChargeA());
+        packData.setPeakChargeTimeMin(dto.peakChargeTimeMin());
 
         return packData;
     }
+
 }

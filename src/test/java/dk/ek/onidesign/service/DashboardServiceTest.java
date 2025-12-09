@@ -6,6 +6,7 @@ import dk.ek.onidesign.catalog.repository.ModuleRepository;
 import dk.ek.onidesign.catalog.repository.PackDataRepository;
 import dk.ek.onidesign.catalog.service.DashboardService;
 import dk.ek.onidesign.catalog.dto.DashboardDto;
+import dk.ek.onidesign.exception.ModuleNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,5 +55,15 @@ class DashboardServiceTest {
         assertThat(dto.getNominalCapacityKwh()).isEqualByComparingTo("9.2");
         assertThat(dto.getGrossWeightKg()).isEqualByComparingTo("45.0");
         assertThat(dto.getNominalVoltageV()).isEqualByComparingTo("388");
+    }
+
+    @Test
+    void getModuleDashboard_throwsModuleNotFoundException_whenModuleMissing() {
+        Long missingId = 99L;
+        when(moduleRepository.findById(missingId)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> dashboardService.getModuleDashboard(missingId))
+                .isInstanceOf(ModuleNotFoundException.class)
+                .hasMessageContaining("99");
     }
 }
