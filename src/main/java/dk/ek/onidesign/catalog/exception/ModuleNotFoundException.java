@@ -1,4 +1,4 @@
-package dk.ek.onidesign.exception;
+package dk.ek.onidesign.catalog.exception;
 
 public class ModuleNotFoundException extends RuntimeException {
 
