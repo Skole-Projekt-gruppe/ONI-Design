@@ -18,3 +18,4 @@ public record TestResultDto(
         int faultsEncountered,
         String faultType
 ) {}
+
