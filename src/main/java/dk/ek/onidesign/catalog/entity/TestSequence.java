@@ -15,13 +15,11 @@ public class TestSequence {
     @Column(name = "test_sequence_id")
     private Long testSequenceId;
 
-    // Many-to-One Module
     @ManyToOne
-    @JoinColumn(name = "module_id")
+    @JoinColumn(name = "module_id", nullable = false)
     private Module module;
 
-    // One-to-Many TestResults
-    @OneToMany(mappedBy = "testSequence")
+    @OneToMany(mappedBy = "testSequence", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TestResult> testResults = new ArrayList<>();
 
     @Column(name = "name")
@@ -37,13 +35,18 @@ public class TestSequence {
     public TestSequence() {
     }
 
-    public TestSequence(Long testSequenceId, Module module, List<TestResult> testResults, String name, String description, int sequenceOrder) {
-        this.testSequenceId = testSequenceId;
+    public TestSequence(Module module, String name, String description, Integer sequenceOrder) {
         this.module = module;
-        this.testResults = testResults;
         this.name = name;
         this.description = description;
         this.sequenceOrder = sequenceOrder;
+    }
+
+    public void addTestResult(TestResult result) {
+        testResults.add(result);
+        if (result.getTestSequence() != this) {
+            result.setTestSequence(this);
+        }
     }
 
     public Long getTestSequenceId() {
@@ -58,8 +61,12 @@ public class TestSequence {
         return module;
     }
 
+    // sikrer bi-direktionalitet
     public void setModule(Module module) {
         this.module = module;
+        if (!module.getTestSequences().contains(this)) {
+            module.addTestSequence(this);
+        }
     }
 
     public List<TestResult> getTestResults() {

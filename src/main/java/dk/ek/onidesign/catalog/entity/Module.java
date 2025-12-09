@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "module")
+@Table(name = "modules")
 public class Module {
 
     @Id
@@ -18,12 +18,10 @@ public class Module {
     @Column(name = "module_id")
     private Long moduleId;
 
-    // One-to-One PackData
-    @OneToOne(mappedBy = "module")
+    @OneToOne(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
     private PackData packData;
 
-    // One-to-Many TestSequences
-    @OneToMany(mappedBy = "module")
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TestSequence> testSequences = new ArrayList<>();
 
     @Column(name = "module_name")
@@ -48,15 +46,17 @@ public class Module {
     public Module() {
     }
 
-    public Module(Long moduleId, PackData packData, List<TestSequence> testSequences, String moduleName, String description, String overviewImageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.moduleId = moduleId;
-        this.packData = packData;
-        this.testSequences = testSequences;
+    public Module(String moduleName, String description, String overviewImageUrl) {
         this.moduleName = moduleName;
         this.description = description;
         this.overviewImageUrl = overviewImageUrl;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    }
+
+    public void addTestSequence(TestSequence sequence) {
+        testSequences.add(sequence);
+        if (sequence.getModule() != this) {
+            sequence.setModule(this);
+        }
     }
 
     public Long getModuleId() {
@@ -71,8 +71,13 @@ public class Module {
         return packData;
     }
 
+    // sikrer bi-direktionalitet.
+    // hvis packdata ikke er det her, så sæt den til det her.
     public void setPackData(PackData packData) {
         this.packData = packData;
+        if (packData.getModule() != this) {
+            packData.setModule(this);
+        }
     }
 
     public List<TestSequence> getTestSequences() {
