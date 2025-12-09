@@ -13,9 +13,8 @@ public class TestResult {
     @Column(name = "test_result_id")
     private Long testResultId;
 
-    // Many-to-One TestSequence
     @ManyToOne
-    @JoinColumn(name = "test_sequence_id")
+    @JoinColumn(name = "test_sequence_id", nullable = false)
     private TestSequence testSequence;
 
     @Column(name = "starting_voltage_v", precision = 5, scale = 2)
@@ -57,8 +56,7 @@ public class TestResult {
     public TestResult() {
     }
 
-    public TestResult(Long testResultId, TestSequence testSequence, BigDecimal startingVoltageV, BigDecimal peakChargeVoltageV, BigDecimal dischargeVoltageV, BigDecimal voltageImbalanceMaxV, BigDecimal nominalTempC, BigDecimal maxTempC, BigDecimal minTempC, BigDecimal maxDischargeA, int sustainedMaxDischargeSec, boolean tempCutoffReached, int faultsEncountered, String faultType) {
-        this.testResultId = testResultId;
+    public TestResult(TestSequence testSequence, BigDecimal startingVoltageV, BigDecimal peakChargeVoltageV, BigDecimal dischargeVoltageV, BigDecimal voltageImbalanceMaxV, BigDecimal nominalTempC, BigDecimal maxTempC, BigDecimal minTempC, BigDecimal maxDischargeA, int sustainedMaxDischargeSec, boolean tempCutoffReached, int faultsEncountered, String faultType) {
         this.testSequence = testSequence;
         StartingVoltageV = startingVoltageV;
         this.peakChargeVoltageV = peakChargeVoltageV;
@@ -86,8 +84,12 @@ public class TestResult {
         return testSequence;
     }
 
+    // sikrer bi-direktionalitet
     public void setTestSequence(TestSequence testSequence) {
         this.testSequence = testSequence;
+        if (!testSequence.getTestResults().contains(this)) {
+            testSequence.addTestResult(this);
+        }
     }
 
     public BigDecimal getStartingVoltageV() {

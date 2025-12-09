@@ -7,42 +7,17 @@ public class ModuleMapper {
     public static ModuleDto toDto(Module module) {
         return new ModuleDto(
                 module.getModuleId(),
-                PackDataMapper.toDto(module.getPackData()),
-                module.getTestSequences().stream()
-                        .map(TestSequenceMapper::toDto)
-                        .toList(),
                 module.getModuleName(),
                 module.getDescription(),
-                module.getOverviewImageUrl(),
-                module.getCreatedAt(),
-                module.getUpdatedAt()
+                module.getOverviewImageUrl()
         );
     }
 
-    public static Module toEntity(ModuleDto moduleDto) {
+    public static Module toEntity(ModuleDto dto) {
         Module module = new Module();
-
-        module.setModuleId(moduleDto.moduleId());
-        module.setPackData(PackDataMapper.toEntity(moduleDto.packData()));
-
-        // Mapper hver testSequenceDto i moduleDto.testSequences() til en TestSequence entity,
-        // sætter modulet på hver TestSequence (så relationen bliver korrekt),
-        // samler alle TestSequence entities i en liste, og sætter listen på module.
-        module.setTestSequences(moduleDto.testSequences().stream()
-                .map(testSequenceDto -> {
-                    var testSequence = TestSequenceMapper.toEntity(testSequenceDto);
-                    testSequence.setModule(module);
-                    return testSequence;
-                })
-                .toList()
-        );
-
-        module.setModuleName(moduleDto.moduleName());
-        module.setDescription(moduleDto.description());
-        module.setOverviewImageUrl(moduleDto.overviewImageUrl());
-        module.setCreatedAt(moduleDto.createdAt());
-        module.setUpdatedAt(moduleDto.updatedAt());
-
+        module.setModuleName(dto.moduleName());
+        module.setDescription(dto.description());
+        module.setOverviewImageUrl(dto.overviewImageUrl());
         return module;
     }
 }
