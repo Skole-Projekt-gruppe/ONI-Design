@@ -1,6 +1,6 @@
 package dk.ek.onidesign.catalog.service;
 
-import dk.ek.onidesign.catalog.exception.NotFoundException;
+// import dk.ek.onidesign.catalog.exception.NotFoundException;
 import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.repository.ModuleRepository;
 import org.springframework.data.domain.Sort;
@@ -57,6 +57,7 @@ public class SearchService
         return repository.findAll(sort);
     }
 
+    /*
     public Module getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Ingen module fundet med id: " + id));
@@ -72,4 +73,5 @@ public class SearchService
         }
         repository.deleteById(id);
     }
+    */
 }

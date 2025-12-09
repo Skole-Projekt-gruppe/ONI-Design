@@ -37,7 +37,7 @@ public class PackDataMapper {
         PackData packData = new PackData();
 
         packData.setPackDataId(packDataDto.packDataId());
-        packData.setModule(ModuleMapper.toEntity(packDataDto.module()));
+        // packData.setModule(ModuleMapper.toEntity(packDataDto.module())); // For at undgå et loop
         packData.setCellQuantity(packDataDto.cellQuantity());
         packData.setCellWeightKg(packDataDto.cellWeightKg());
         packData.setGrossWeightKg(packDataDto.grossWeightKg());

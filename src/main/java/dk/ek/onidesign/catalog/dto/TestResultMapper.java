@@ -7,6 +7,7 @@ public class TestResultMapper {
     public static TestResultDto toDto(TestResult testResult) {
         return new TestResultDto(
                 testResult.getTestResultId(),
+                // TestSequenceMapper.toDto(testResult.getTestSequence()), Fjernes for at undgå JSON-cirkler og bliver derfor sat til nu
                 null, // For at undgår et uendeligt loop
                 testResult.getStartingVoltageV(),
                 testResult.getPeakChargeVoltageV(),
@@ -27,7 +28,7 @@ public class TestResultMapper {
         TestResult testResult = new TestResult();
 
         testResult.setTestResultId(testResultDto.testResultId());
-        testResult.setTestSequence(TestSequenceMapper.toEntity(testResultDto.testSequence()));
+        // testResult.setTestSequence(TestSequenceMapper.toEntity(testResultDto.testSequence())); // Fjernes Fordi den fra TestResultDto for at undgå JSON-cirkler.
         testResult.setStartingVoltageV(testResultDto.startingVoltageV());
         testResult.setPeakChargeVoltageV(testResultDto.peakChargeVoltageV());
         testResult.setDischargeVoltageV(testResultDto.dischargeVoltageV());
