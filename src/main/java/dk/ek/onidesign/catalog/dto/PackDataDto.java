@@ -20,3 +20,4 @@ public record PackDataDto(
         BigDecimal peakDcChargeA,
         int peakChargeTimeMin
 ) {}
+

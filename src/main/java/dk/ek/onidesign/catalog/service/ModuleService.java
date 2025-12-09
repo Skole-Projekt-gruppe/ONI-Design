@@ -44,7 +44,6 @@ public class ModuleService {
         //cascade sørger for PackData
         moduleRepository.save(module);
 
-        // Returner DTO i stedet for entity
         return new ModulePackDataDto(
                 module.getModuleId(),
                 module.getModuleName(),

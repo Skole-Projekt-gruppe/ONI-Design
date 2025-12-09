@@ -6,3 +6,4 @@ public record ModuleDto(
         String description,
         String overviewImageUrl
 ) {}
+
