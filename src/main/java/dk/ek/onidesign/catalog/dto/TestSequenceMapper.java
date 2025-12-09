@@ -1,10 +1,10 @@
 package dk.ek.onidesign.catalog.dto;
 
-import dk.ek.onidesign.catalog.dto.TestSequenceDto;
 import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.entity.TestSequence;
 
 public class TestSequenceMapper {
+
     public static TestSequenceDto toDto(TestSequence ts) {
         return new TestSequenceDto(
                 ts.getTestSequenceId(),
@@ -25,3 +25,4 @@ public class TestSequenceMapper {
         return ts;
     }
 }
+

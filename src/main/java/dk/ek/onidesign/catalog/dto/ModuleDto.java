@@ -1,4 +1,3 @@
-
 package dk.ek.onidesign.catalog.dto;
 
 public record ModuleDto(
@@ -7,3 +6,4 @@ public record ModuleDto(
         String description,
         String overviewImageUrl
 ) {}
+
