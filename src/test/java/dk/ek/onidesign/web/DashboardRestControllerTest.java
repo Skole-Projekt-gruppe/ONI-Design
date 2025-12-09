@@ -2,7 +2,7 @@ package dk.ek.onidesign.web;
 
 import dk.ek.onidesign.catalog.dto.DashboardDto;
 import dk.ek.onidesign.catalog.service.DashboardService;
-import dk.ek.onidesign.exception.ModuleNotFoundException;
+import dk.ek.onidesign.catalog.exception.ModuleNotFoundException;
 import dk.ek.onidesign.catalog.web.DashboardRestController;
 import dk.ek.onidesign.catalog.web.GlobalExceptionHandler;
 import org.junit.jupiter.api.Test;

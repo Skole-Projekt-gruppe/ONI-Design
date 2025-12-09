@@ -5,7 +5,7 @@ import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.repository.ModuleRepository;
 import dk.ek.onidesign.catalog.repository.PackDataRepository;
 import dk.ek.onidesign.catalog.dto.DashboardDto;
-import dk.ek.onidesign.exception.ModuleNotFoundException;
+import dk.ek.onidesign.catalog.exception.ModuleNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
