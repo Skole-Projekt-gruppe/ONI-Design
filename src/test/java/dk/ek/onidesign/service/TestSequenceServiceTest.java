@@ -66,14 +66,12 @@ public class TestSequenceServiceTest {
         TestSequenceTestResultDto result = service.createTestSequenceTestResult(input);
 
 
-        // Assert: Test Sequence felter
         assertNull(result.testSequenceId(), "testSequenceId should be null");
         assertEquals(1L, result.moduleId(), "moduleId mismatch");
         assertEquals("Module Test Sequence", result.name(), "name mismatch");
         assertEquals("A test sequence for module 101", result.description(), "description mismatch");
         assertEquals(1, result.sequenceOrder(), "sequenceOrder mismatch");
 
-        // Assert: TestResult felter
         assertNull(result.testResultId(), "testResultId should be null");
         assertEquals(new BigDecimal("3.7"), result.startingVoltageV(), "startingVoltageV mismatch");
         assertEquals(new BigDecimal("4.2"), result.peakChargeVoltageV(), "peakChargeVoltageV mismatch");
