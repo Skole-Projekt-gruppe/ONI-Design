@@ -1,9 +1,10 @@
 package dk.ek.onidesign.catalog.dto;
 
+import dk.ek.onidesign.catalog.dto.TestSequenceDto;
+import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.entity.TestSequence;
 
 public class TestSequenceMapper {
-
     public static TestSequenceDto toDto(TestSequence ts) {
         return new TestSequenceDto(
                 ts.getTestSequenceId(),
@@ -14,10 +15,10 @@ public class TestSequenceMapper {
         );
     }
 
-    public static TestSequence toEntity(TestSequenceDto dto) {
+    public static TestSequence toEntity(TestSequenceDto dto, Module module) {
         TestSequence ts = new TestSequence();
         ts.setTestSequenceId(dto.testSequenceId());
-        // ts.setModule(module); Ved ikke om dette kan slettes ??
+        ts.setModule(module);
         ts.setName(dto.name());
         ts.setDescription(dto.description());
         ts.setSequenceOrder(dto.sequenceOrder());

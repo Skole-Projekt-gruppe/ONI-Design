@@ -10,9 +10,4 @@ import java.util.List;
 @Repository
 public interface ModuleRepository extends JpaRepository<Module, Long> {
 
-    // Søge i modulnavn
-    List<Module> findByModuleNameContainingIgnoreCase(String moduleName);
-
-    // Søg + sort på modulnavn
-    List<Module> findByModuleNameContainingIgnoreCase(String moduleName, Sort sort);
 }
