@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Module Table</title>
+
+    <link rel="stylesheet" href="/css/modules.css">
+</head>
+<body>
+
+<h1>Module Table</h1>
+
+<input id="searchInput" type="text" placeholder="Search modules...">
+<button id="searchBtn">Søg</button>
+<button id="resetBtn">Reset</button>
+
+<table>
+    <thead>
+    <tr>
+        <th data-sort="moduleName">Modulnavn</th>
+        <th>Beskrivelse</th>
+        <th>Oprettet</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="modulesBody">
+    <!-- JS fylder ind her -->
+    </tbody>
+</table>
+
+<script src="/js/modules.js"></script>
+</body>
+</html>

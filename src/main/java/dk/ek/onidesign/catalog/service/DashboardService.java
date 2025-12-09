@@ -5,6 +5,7 @@ import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.repository.ModuleRepository;
 import dk.ek.onidesign.catalog.repository.PackDataRepository;
 import dk.ek.onidesign.catalog.dto.DashboardDto;
+import dk.ek.onidesign.exception.ModuleNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class DashboardService {
 
     public DashboardDto getModuleDashboard(Long moduleId) {
         Module module = moduleRepository.findById(moduleId)
-                .orElseThrow(() -> new RuntimeException("Module not found"));
+                .orElseThrow(() -> new ModuleNotFoundException(moduleId));
 
         PackData packData = packDataRepository.findByModule_ModuleId(moduleId);
 
