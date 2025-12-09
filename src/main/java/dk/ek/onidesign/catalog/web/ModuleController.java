@@ -2,7 +2,6 @@ package dk.ek.onidesign.catalog.web;
 
 import dk.ek.onidesign.catalog.dto.ModuleDto;
 import dk.ek.onidesign.catalog.dto.ModulePackDataDto;
-import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.service.ModuleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
