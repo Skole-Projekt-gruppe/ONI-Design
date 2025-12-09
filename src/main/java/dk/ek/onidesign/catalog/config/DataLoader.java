@@ -1,6 +1,5 @@
 package dk.ek.onidesign.catalog.config;
 
-
 import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.entity.PackData;
 import dk.ek.onidesign.catalog.repository.ModuleRepository;
