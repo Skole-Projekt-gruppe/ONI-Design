@@ -2,124 +2,32 @@
 <html lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Moduler – oversigt</title>
-    <style>
-        body { font-family: system-ui, sans-serif; margin: 2rem; }
-        table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
-        th, td { border: 1px solid #ccc; padding: 0.4rem 0.6rem; text-align: left; }
-        th { background: #f5f5f5; }
-        .controls { margin-bottom: 1rem; }
-    </style>
+    <title>Module Table</title>
+
+    <link rel="stylesheet" href="/css/modules.css">
 </head>
 <body>
 
-<h1>Moduler – søg i data</h1>
+<h1>Module Table</h1>
 
-<div class="controls">
-    <label>
-        Søg på modulnavn:
-        <input id="searchInput" type="text" placeholder="fx Diem pack">
-    </label>
-    <button id="searchBtn">Søg</button>
-    <button id="resetBtn">Nulstil</button>
-</div>
+<input id="searchInput" type="text" placeholder="Search modules...">
+<button id="searchBtn">Søg</button>
+<button id="resetBtn">Reset</button>
 
 <table>
     <thead>
     <tr>
-        <th>Modulnavn</th>
+        <th data-sort="moduleName">Modulnavn</th>
         <th>Beskrivelse</th>
         <th>Oprettet</th>
-        <th>Cell quantity (PackData)</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody id="modulesBody">
-    <!-- Rækker kommer her med JS -->
+    <!-- JS fylder ind her -->
     </tbody>
 </table>
 
-<script>
-    const API_URL = '/api/modules';
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn   = document.getElementById('searchBtn');
-    const resetBtn    = document.getElementById('resetBtn');
-    const tbody       = document.getElementById('modulesBody');
-
-    async function loadModules() {
-        const search = searchInput.value.trim();
-        let url = API_URL;
-        if (search) {
-            url += '?search=' + encodeURIComponent(search);
-        }
-
-        try {
-            const res = await fetch(url);
-            if (!res.ok) {
-                throw new Error('API-fejl: ' + res.status);
-            }
-            const data = await res.json();
-            renderTable(data);
-        } catch (err) {
-            console.error(err);
-            tbody.innerHTML = '<tr><td colspan="4">Fejl ved hentning af data.</td></tr>';
-        }
-    }
-
-    function renderTable(modules) {
-        if (!modules || modules.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4">Ingen moduler fundet.</td></tr>';
-            return;
-        }
-
-        tbody.innerHTML = '';
-
-        modules.forEach(m => {
-            const tr = document.createElement('tr');
-
-            const nameTd = document.createElement('td');
-            nameTd.textContent = m.moduleName ?? '';
-            tr.appendChild(nameTd);
-
-            const descTd = document.createElement('td');
-            descTd.textContent = m.description ?? '';
-            tr.appendChild(descTd);
-
-            const createdTd = document.createElement('td');
-            createdTd.textContent = m.createdAt ?? '';
-            tr.appendChild(createdTd);
-
-            const cellTd = document.createElement('td');
-            if (m.packData && typeof m.packData.cellQuantity === 'number') {
-                cellTd.textContent = m.packData.cellQuantity;
-            } else {
-                cellTd.textContent = '-';
-            }
-            tr.appendChild(cellTd);
-
-            tbody.appendChild(tr);
-        });
-    }
-
-    // Første load når siden åbner
-    loadModules();
-
-    // Søg-knappen
-    searchBtn.addEventListener('click', loadModules);
-
-    // Nulstil-knappen
-    resetBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        loadModules();
-    });
-
-    // Enter i søgefeltet
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            loadModules();
-        }
-    });
-</script>
-
+<script src="/js/modules.js"></script>
 </body>
 </html>

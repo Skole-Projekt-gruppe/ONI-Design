@@ -2,15 +2,27 @@ package dk.ek.onidesign.catalog.dto;
 
 import dk.ek.onidesign.catalog.entity.Module;
 
+import java.util.List;
+
 public class ModuleMapper {
 
     public static ModuleDto toDto(Module module) {
+        if (module == null) {
+            return null;
+        }
+
+        // Pakke-data kan være null
+        var packDataDto = module.getPackData() != null
+                ? PackDataMapper.toDto(module.getPackData())
+                : null;
+
+        // Til vores visning bruger vi ikke testSequences → tom liste
+        List<TestSequenceDto> testSequenceDtos = List.of();
+
         return new ModuleDto(
                 module.getModuleId(),
-                PackDataMapper.toDto(module.getPackData()),
-                module.getTestSequences().stream()
-                        .map(TestSequenceMapper::toDto)
-                        .toList(),
+                packDataDto,
+                testSequenceDtos,
                 module.getModuleName(),
                 module.getDescription(),
                 module.getOverviewImageUrl(),

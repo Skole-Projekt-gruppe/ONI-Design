@@ -5,9 +5,13 @@ import dk.ek.onidesign.catalog.entity.PackData;
 public class PackDataMapper {
 
     public static PackDataDto toDto(PackData packData) {
+        if (packData == null) {
+            return null;
+        }
+
         return new PackDataDto(
                 packData.getPackDataId(),
-                ModuleMapper.toDto(packData.getModule()),
+                null, // vi sender IKKE ModuleDto med → ingen cirkel
                 packData.getCellQuantity(),
                 packData.getCellWeightKg(),
                 packData.getGrossWeightKg(),
@@ -26,6 +30,10 @@ public class PackDataMapper {
     }
 
     public static PackData toEntity(PackDataDto packDataDto) {
+        if (packDataDto == null) {
+            return null;
+        }
+
         PackData packData = new PackData();
 
         packData.setPackDataId(packDataDto.packDataId());

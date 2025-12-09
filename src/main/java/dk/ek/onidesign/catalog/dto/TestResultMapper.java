@@ -7,7 +7,7 @@ public class TestResultMapper {
     public static TestResultDto toDto(TestResult testResult) {
         return new TestResultDto(
                 testResult.getTestResultId(),
-                TestSequenceMapper.toDto(testResult.getTestSequence()),
+                null, // For at undgår et uendeligt loop
                 testResult.getStartingVoltageV(),
                 testResult.getPeakChargeVoltageV(),
                 testResult.getDischargeVoltageV(),
