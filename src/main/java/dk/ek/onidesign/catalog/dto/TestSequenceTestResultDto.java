@@ -26,3 +26,4 @@ public record TestSequenceTestResultDto(
         String faultType
 ) {
 }
+
