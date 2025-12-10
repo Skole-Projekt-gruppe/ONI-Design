@@ -6,7 +6,7 @@ import dk.ek.onidesign.catalog.repository.ModuleRepository;
 import dk.ek.onidesign.catalog.repository.PackDataRepository;
 import dk.ek.onidesign.catalog.service.DashboardService;
 import dk.ek.onidesign.catalog.dto.DashboardDto;
-import dk.ek.onidesign.exception.ModuleNotFoundException;
+import dk.ek.onidesign.catalog.exception.ModuleNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
