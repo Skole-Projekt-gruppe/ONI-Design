@@ -4,7 +4,7 @@ import dk.ek.onidesign.catalog.dto.DashboardDto;
 import dk.ek.onidesign.catalog.service.DashboardService;
 import dk.ek.onidesign.catalog.exception.ModuleNotFoundException;
 import dk.ek.onidesign.catalog.web.DashboardRestController;
-import dk.ek.onidesign.catalog.web.GlobalExceptionHandler;
+import dk.ek.onidesign.catalog.exception.GlobalExceptionHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
