@@ -1,6 +1,7 @@
 // === KONSTANTER ===
 const TS_API_URL    = "/api/testsequences";
 const TR_API_URL    = "/api/testresults/sequence";
+const TR_DELETE_API = "/api/testresults";
 
 const tsSearchInput = document.getElementById("tsSearchInput");
 const tsSearchBtn   = document.getElementById("tsSearchBtn");
@@ -17,17 +18,42 @@ function td(text) {
     return cell;
 }
 
-// === Hent TestResults for én sequence og put dem i boksen ===
-async function loadTestResultsForSequence(sequenceId, box) {
-    box.innerHTML = ""; // ryd før vi viser indhold
+// Læs moduleId fra querystring
+const urlParams = new URLSearchParams(window.location.search);
+const currentModuleId = urlParams.get("moduleId");
+
+// === Global "Create new TestResult"-knap under <h1> ===
+function initCreateButton() {
+    const h1 = document.querySelector("h1");
+    if (!h1) return;
+
+    // Lav knap
+    const createBtn = document.createElement("button");
+    createBtn.type = "button";
+    createBtn.classList.add("edit-btn");
+    createBtn.style.margin = "0.5rem 0 1rem 0";
+    createBtn.textContent = "Create new TestResult";
+
+    createBtn.addEventListener("click", () => {
+        const moduleIdForUrl = currentModuleId ?? "";
+        window.location.href = `/ModuleLogging.html?moduleId=${moduleIdForUrl}`;
+    });
+
+    // Indsæt knappen lige under H1
+    h1.insertAdjacentElement("afterend", createBtn);
+}
+
+// === Hent TestResults for én sequence og put dem i en container ===
+async function loadTestResultsForSequence(sequenceId, container) {
+    container.innerHTML = "";
 
     const h = document.createElement("strong");
     h.textContent = "TestResults";
-    box.appendChild(h);
+    container.appendChild(h);
 
     const loading = document.createElement("p");
     loading.textContent = "Henter test results...";
-    box.appendChild(loading);
+    container.appendChild(loading);
 
     try {
         const url = `${TR_API_URL}/${sequenceId}?sortField=testResultId&sortDir=asc`;
@@ -37,38 +63,36 @@ async function loadTestResultsForSequence(sequenceId, box) {
             loading.textContent = "Ingen test results tilknyttet.";
             return;
         }
-        if (!res.ok) {
-            throw new Error("API-fejl: " + res.status);
-        }
+        if (!res.ok) throw new Error("API-fejl: " + res.status);
 
         const results = await res.json();
-        loading.remove(); // fjern "henter..."-tekst
+        loading.remove();
 
-        if (!results || results.length === 0) {
-            const p = document.createElement("p");
-            p.textContent = "Ingen test results tilknyttet.";
-            box.appendChild(p);
+        if (!results.length) {
+            container.appendChild(Object.assign(document.createElement("p"), {
+                textContent: "Ingen test results tilknyttet."
+            }));
             return;
         }
 
         const table = document.createElement("table");
-        table.classList.add("packdata-table"); // genbruger samme styling
+        table.classList.add("packdata-table");
 
-        const thead = document.createElement("thead");
-        thead.innerHTML = `
-            <tr>
-                <th>Start V</th>
-                <th>Peak charge V</th>
-                <th>Discharge V</th>
-                <th>Max discharge A</th>
-                <th>Max discharge sek</th>
-                <th>Temp cutoff?</th>
-                <th>Faults</th>
-                <th>Fault type</th>
-                <th></th>
-            </tr>
+        table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>Start V</th>
+                    <th>Peak charge V</th>
+                    <th>Discharge V</th>
+                    <th>Max discharge A</th>
+                    <th>Max discharge sek</th>
+                    <th>Temp cutoff?</th>
+                    <th>Faults</th>
+                    <th>Fault type</th>
+                    <th></th>
+                </tr>
+            </thead>
         `;
-        table.appendChild(thead);
 
         const tbody = document.createElement("tbody");
 
@@ -84,23 +108,31 @@ async function loadTestResultsForSequence(sequenceId, box) {
             row.appendChild(td(tr.faultsEncountered));
             row.appendChild(td(tr.faultType));
 
-            const editTd = document.createElement("td");
-            const editBtn = document.createElement("button");
-            editBtn.type = "button";
-            editBtn.classList.add("edit-btn");
-            editBtn.textContent = "Edit";
-            editBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                alert("Edit TestResult " + tr.testResultId + " for sequence " + sequenceId);
-            });
-            editTd.appendChild(editBtn);
+            const actionTd = document.createElement("td");
 
-            row.appendChild(editTd);
+            // DELETE
+            const deleteBtn = document.createElement("button");
+            deleteBtn.classList.add("delete-btn");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.addEventListener("click", async (e) => {
+                e.stopPropagation();
+                if (!confirm(`Slette TestResult ${tr.testResultId}?`)) return;
+
+                const res = await fetch(`${TR_DELETE_API}/${tr.testResultId}`, {
+                    method: "DELETE"
+                });
+
+                if (res.ok) row.remove();
+                else alert("Kunne ikke slette.");
+            });
+
+            actionTd.appendChild(deleteBtn);
+            row.appendChild(actionTd);
             tbody.appendChild(row);
         });
 
         table.appendChild(tbody);
-        box.appendChild(table);
+        container.appendChild(table);
 
     } catch (err) {
         console.error(err);
@@ -108,141 +140,53 @@ async function loadTestResultsForSequence(sequenceId, box) {
     }
 }
 
-// === Byg rækker for én TestSequence ===
-function createTestSequenceRows(seq) {
-    const mainTr = document.createElement("tr");
-    mainTr.classList.add("module-row");
-
-    // kolonner til TestSequenceDto
-    mainTr.appendChild(td(seq.name));
-    mainTr.appendChild(td(seq.description));
-    mainTr.appendChild(td(seq.sequenceOrder));
-
-    const actionsTd = document.createElement("td");
-    const toggleBtn = document.createElement("button");
-    toggleBtn.type = "button";
-    toggleBtn.classList.add("toggle-btn");
-    toggleBtn.textContent = "▶";
-    actionsTd.appendChild(toggleBtn);
-    mainTr.appendChild(actionsTd);
-
-    // details-row
-    const detailsTr = document.createElement("tr");
-    detailsTr.classList.add("details-row", "hidden");
-
-    const detailsTd = document.createElement("td");
-    detailsTd.colSpan = 4;
-
-    const box = document.createElement("div");
-    box.classList.add("details-box");
-
-    const h = document.createElement("strong");
-    h.textContent = "TestResults";
-    box.appendChild(h);
-
-    detailsTd.appendChild(box);
-    detailsTr.appendChild(detailsTd);
-
-    let resultsLoaded = false;
-
-    async function toggleDetails() {
-        const hidden = detailsTr.classList.contains("hidden");
-        if (hidden) {
-            detailsTr.classList.remove("hidden");
-            toggleBtn.textContent = "▼";
-
-            if (!resultsLoaded) {
-                resultsLoaded = true;
-                await loadTestResultsForSequence(seq.testSequenceId, box);
-            }
-        } else {
-            detailsTr.classList.add("hidden");
-            toggleBtn.textContent = "▶";
-        }
-    }
-
-    toggleBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        toggleDetails();
-    });
-
-    mainTr.addEventListener("click", () => {
-        toggleDetails();
-    });
-
-    return { mainTr, detailsTr };
-}
-
-// Render hele tabellen
+// === Render TestSequences ===
 function renderTestSequenceTable(sequences) {
-    if (!sequences || sequences.length === 0) {
+    if (!sequences || !sequences.length) {
         tsTbody.innerHTML = '<tr><td colspan="4">Ingen test sequences fundet.</td></tr>';
         return;
     }
 
     tsTbody.innerHTML = "";
+
     sequences.forEach(seq => {
-        const { mainTr, detailsTr } = createTestSequenceRows(seq);
-        tsTbody.appendChild(mainTr);
-        tsTbody.appendChild(detailsTr);
+        const tr = document.createElement("tr");
+        const tdCell = document.createElement("td");
+        tdCell.colSpan = 4;
+
+        const box = document.createElement("div");
+        box.classList.add("details-box");
+
+        box.innerHTML = `
+            <h3>${seq.name}</h3>
+            <p>${seq.description ?? ""}</p>
+            <p>Sequence order: ${seq.sequenceOrder}</p>
+        `;
+
+        const resultsContainer = document.createElement("div");
+        box.appendChild(resultsContainer);
+
+        tdCell.appendChild(box);
+        tr.appendChild(tdCell);
+        tsTbody.appendChild(tr);
+
+        loadTestResultsForSequence(seq.testSequenceId, resultsContainer);
     });
 }
 
-// Hent test sequences (search + sort)
+// Hent sequences
 async function loadTestSequences() {
-    const search = tsSearchInput ? tsSearchInput.value.trim() : "";
-
     let url = `${TS_API_URL}?sortField=${tsSortField}&sortDir=${tsSortDir}`;
-    if (search) {
-        url += "&search=" + encodeURIComponent(search);
+
+    if (currentModuleId) {
+        url += `&moduleId=${currentModuleId}`;
     }
 
-    try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("API-fejl: " + res.status);
-        const data = await res.json();
-        renderTestSequenceTable(data);
-
-    } catch (err) {
-        console.error(err);
-        tsTbody.innerHTML = '<tr><td colspan="4">Fejl ved hentning af data.</td></tr>';
-    }
+    const res = await fetch(url);
+    const data = await res.json();
+    renderTestSequenceTable(data);
 }
 
-// events til søgning (valgfrit – HTML har dem ikke endnu, men koden er klar)
-if (tsSearchBtn) {
-    tsSearchBtn.addEventListener("click", loadTestSequences);
-}
-if (tsResetBtn) {
-    tsResetBtn.addEventListener("click", () => {
-        tsSearchInput.value = "";
-        loadTestSequences();
-    });
-}
-if (tsSearchInput) {
-    tsSearchInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            loadTestSequences();
-        }
-    });
-}
-
-// sortering på headers
-document.querySelectorAll("th[data-sort]").forEach(th => {
-    th.addEventListener("click", () => {
-        const field = th.dataset.sort;
-
-        if (field === tsSortField) {
-            tsSortDir = tsSortDir === "asc" ? "desc" : "asc";
-        } else {
-            tsSortField = field;
-            tsSortDir   = "asc";
-        }
-
-        loadTestSequences();
-    });
-});
-
-// første load
+// Init
+initCreateButton();
 loadTestSequences();
