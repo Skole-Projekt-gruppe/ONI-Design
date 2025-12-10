@@ -1,9 +1,6 @@
-package dk.ek.onidesign.catalog.web;
+package dk.ek.onidesign.catalog.exception;
 
 
-import dk.ek.onidesign.catalog.exception.InternalServerException;
-import dk.ek.onidesign.catalog.exception.ModuleNotFoundException;
-import dk.ek.onidesign.catalog.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
