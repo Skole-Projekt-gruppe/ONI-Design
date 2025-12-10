@@ -1,4 +1,7 @@
+// === KONSTANTER ===
 const TS_API_URL    = "/api/testsequences";
+const TR_API_URL    = "/api/testresults/sequence";
+
 const tsSearchInput = document.getElementById("tsSearchInput");
 const tsSearchBtn   = document.getElementById("tsSearchBtn");
 const tsResetBtn    = document.getElementById("tsResetBtn");
@@ -7,48 +10,49 @@ const tsTbody       = document.getElementById("testSequencesBody");
 let tsSortField = "name";
 let tsSortDir   = "asc";
 
+// Hjælp: lav <td> med tekst
 function td(text) {
     const cell = document.createElement("td");
     cell.textContent = text ?? "";
     return cell;
 }
 
-function createTestSequenceRows(seq) {
-    const mainTr = document.createElement("tr");
-    mainTr.classList.add("module-row");
-
-    // kolonner til TestSequenceDto
-    mainTr.appendChild(td(seq.name));
-    mainTr.appendChild(td(seq.description));
-    mainTr.appendChild(td(seq.sequenceOrder));
-
-    const actionsTd = document.createElement("td");
-    const toggleBtn = document.createElement("button");
-    toggleBtn.type = "button";
-    toggleBtn.classList.add("toggle-btn");
-    toggleBtn.textContent = "▶";
-    actionsTd.appendChild(toggleBtn);
-    mainTr.appendChild(actionsTd);
-
-    // details-row
-    const detailsTr = document.createElement("tr");
-    detailsTr.classList.add("details-row", "hidden");
-
-    const detailsTd = document.createElement("td");
-    detailsTd.colSpan = 4;
-
-    const box = document.createElement("div");
-    box.classList.add("details-box");
+// === Hent TestResults for én sequence og put dem i boksen ===
+async function loadTestResultsForSequence(sequenceId, box) {
+    box.innerHTML = ""; // ryd før vi viser indhold
 
     const h = document.createElement("strong");
     h.textContent = "TestResults";
     box.appendChild(h);
 
-    const results = seq.testResults;
+    const loading = document.createElement("p");
+    loading.textContent = "Henter test results...";
+    box.appendChild(loading);
 
-    if (results && results.length > 0) {
+    try {
+        const url = `${TR_API_URL}/${sequenceId}?sortField=testResultId&sortDir=asc`;
+        const res = await fetch(url);
+
+        if (res.status === 404) {
+            loading.textContent = "Ingen test results tilknyttet.";
+            return;
+        }
+        if (!res.ok) {
+            throw new Error("API-fejl: " + res.status);
+        }
+
+        const results = await res.json();
+        loading.remove(); // fjern "henter..."-tekst
+
+        if (!results || results.length === 0) {
+            const p = document.createElement("p");
+            p.textContent = "Ingen test results tilknyttet.";
+            box.appendChild(p);
+            return;
+        }
+
         const table = document.createElement("table");
-        table.classList.add("packdata-table");
+        table.classList.add("packdata-table"); // genbruger samme styling
 
         const thead = document.createElement("thead");
         thead.innerHTML = `
@@ -87,7 +91,7 @@ function createTestSequenceRows(seq) {
             editBtn.textContent = "Edit";
             editBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
-                alert("Edit TestResult " + tr.testResultId + " for sequence " + seq.name);
+                alert("Edit TestResult " + tr.testResultId + " for sequence " + sequenceId);
             });
             editTd.appendChild(editBtn);
 
@@ -97,20 +101,60 @@ function createTestSequenceRows(seq) {
 
         table.appendChild(tbody);
         box.appendChild(table);
-    } else {
-        const p = document.createElement("p");
-        p.textContent = "Ingen test results tilknyttet.";
-        box.appendChild(p);
+
+    } catch (err) {
+        console.error(err);
+        loading.textContent = "Fejl ved hentning af test results.";
     }
+}
+
+// === Byg rækker for én TestSequence ===
+function createTestSequenceRows(seq) {
+    const mainTr = document.createElement("tr");
+    mainTr.classList.add("module-row");
+
+    // kolonner til TestSequenceDto
+    mainTr.appendChild(td(seq.name));
+    mainTr.appendChild(td(seq.description));
+    mainTr.appendChild(td(seq.sequenceOrder));
+
+    const actionsTd = document.createElement("td");
+    const toggleBtn = document.createElement("button");
+    toggleBtn.type = "button";
+    toggleBtn.classList.add("toggle-btn");
+    toggleBtn.textContent = "▶";
+    actionsTd.appendChild(toggleBtn);
+    mainTr.appendChild(actionsTd);
+
+    // details-row
+    const detailsTr = document.createElement("tr");
+    detailsTr.classList.add("details-row", "hidden");
+
+    const detailsTd = document.createElement("td");
+    detailsTd.colSpan = 4;
+
+    const box = document.createElement("div");
+    box.classList.add("details-box");
+
+    const h = document.createElement("strong");
+    h.textContent = "TestResults";
+    box.appendChild(h);
 
     detailsTd.appendChild(box);
     detailsTr.appendChild(detailsTd);
 
-    function toggleDetails() {
+    let resultsLoaded = false;
+
+    async function toggleDetails() {
         const hidden = detailsTr.classList.contains("hidden");
         if (hidden) {
             detailsTr.classList.remove("hidden");
             toggleBtn.textContent = "▼";
+
+            if (!resultsLoaded) {
+                resultsLoaded = true;
+                await loadTestResultsForSequence(seq.testSequenceId, box);
+            }
         } else {
             detailsTr.classList.add("hidden");
             toggleBtn.textContent = "▶";
@@ -129,6 +173,7 @@ function createTestSequenceRows(seq) {
     return { mainTr, detailsTr };
 }
 
+// Render hele tabellen
 function renderTestSequenceTable(sequences) {
     if (!sequences || sequences.length === 0) {
         tsTbody.innerHTML = '<tr><td colspan="4">Ingen test sequences fundet.</td></tr>';
@@ -143,6 +188,7 @@ function renderTestSequenceTable(sequences) {
     });
 }
 
+// Hent test sequences (search + sort)
 async function loadTestSequences() {
     const search = tsSearchInput ? tsSearchInput.value.trim() : "";
 
@@ -163,7 +209,7 @@ async function loadTestSequences() {
     }
 }
 
-// events
+// events til søgning (valgfrit – HTML har dem ikke endnu, men koden er klar)
 if (tsSearchBtn) {
     tsSearchBtn.addEventListener("click", loadTestSequences);
 }

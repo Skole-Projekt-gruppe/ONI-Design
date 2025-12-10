@@ -82,8 +82,10 @@ public class TestSequenceService {
                 testResult.getFaultType()
         );
     }
-/*
-    public List<TestSequenceDto> getAll(String search, String sortField, String sortDir) {
+    public List<TestSequenceDto> search(String search,
+                                        String sortField,
+                                        String sortDir) {
+
         // 1) Bestem retning (default asc)
         Sort.Direction direction =
                 "desc".equalsIgnoreCase(sortDir)
@@ -98,20 +100,21 @@ public class TestSequenceService {
 
         Sort sort = Sort.by(direction, sortProperty);
 
-        // 3) Hent data fra DB
-        List<TestSequence> sequences;
-        if (search != null && !search.isBlank()) {
-            // kræver en metode i repo:
-            // List<TestSequence> findByNameContainingIgnoreCase(String name, Sort sort);
-            sequences = testSequenceRepository.findByNameContainingIgnoreCase(search, sort);
-        } else {
-            sequences = testSequenceRepository.findAll(sort);
+        // 3) Brug annotation-query. Hvis search er tom/null -> bare ingen filter på navn
+        if (search == null || search.isBlank()) {
+            // stadig IKKE en getAll-metode – bare findAll med sort
+            List<TestSequence> all = testSequenceRepository.findAll(sort);
+            return all.stream()
+                    .map(TestSequenceMapper::toDto)
+                    .toList();
         }
 
-        // 4) Map til dine eksisterende DTO’er
+        List<TestSequence> sequences =
+                testSequenceRepository.searchByName(search, sort);
+
+        // 4) Map til DTO
         return sequences.stream()
                 .map(TestSequenceMapper::toDto)
                 .toList();
     }
-    */
 }

@@ -18,6 +18,15 @@ public class TestSequenceController {
     public TestSequenceController(TestSequenceService testSequenceService) {
         this.testSequenceService = testSequenceService;
     }
+    @GetMapping
+    public ResponseEntity<List<TestSequenceDto>> search(
+            @RequestParam(required = false) String search,
+            @RequestParam(defaultValue = "name") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir
+    ) {
+        List<TestSequenceDto> dtos = testSequenceService.search(search, sortField, sortDir);
+        return ResponseEntity.ok(dtos);
+    }
 
     @PostMapping("/testresult")
     public ResponseEntity<TestSequenceTestResultDto> createModulePackData(@RequestBody TestSequenceTestResultDto dto) {
