@@ -82,7 +82,7 @@ public class TestSequenceService {
                 testResult.getFaultType()
         );
     }
-
+/*
     public List<TestSequenceDto> getAll(String search, String sortField, String sortDir) {
         // 1) Bestem retning (default asc)
         Sort.Direction direction =
@@ -113,4 +113,5 @@ public class TestSequenceService {
                 .map(TestSequenceMapper::toDto)
                 .toList();
     }
+    */
 }
