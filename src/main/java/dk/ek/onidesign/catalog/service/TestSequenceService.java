@@ -11,10 +11,6 @@ import dk.ek.onidesign.catalog.repository.TestSequenceRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-
-
-
 import java.util.List;
 
 @Service
@@ -82,17 +78,16 @@ public class TestSequenceService {
                 testResult.getFaultType()
         );
     }
-    public List<TestSequenceDto> search(String search,
+    public List<TestSequenceDto> search(Long moduleId,
+                                        String search,
                                         String sortField,
                                         String sortDir) {
 
-        // 1) Bestem retning (default asc)
         Sort.Direction direction =
                 "desc".equalsIgnoreCase(sortDir)
                         ? Sort.Direction.DESC
                         : Sort.Direction.ASC;
 
-        // 2) Bestem sorteringsfelt (default = "name")
         String sortProperty =
                 (sortField == null || sortField.isBlank())
                         ? "name"
@@ -100,19 +95,19 @@ public class TestSequenceService {
 
         Sort sort = Sort.by(direction, sortProperty);
 
-        // 3) Brug annotation-query. Hvis search er tom/null -> bare ingen filter på navn
-        if (search == null || search.isBlank()) {
-            // stadig IKKE en getAll-metode – bare findAll med sort
-            List<TestSequence> all = testSequenceRepository.findAll(sort);
-            return all.stream()
-                    .map(TestSequenceMapper::toDto)
-                    .toList();
+        List<TestSequence> sequences;
+
+        if (moduleId != null) {
+            // filtrér på Module + evt. søgning
+            sequences = testSequenceRepository.searchByModuleIdAndName(moduleId, search, sort);
+        } else if (search == null || search.isBlank()) {
+            // ingen moduleId, ingen søgning → alle
+            sequences = testSequenceRepository.findAll(sort);
+        } else {
+            // kun søgning på navn
+            sequences = testSequenceRepository.searchByName(search, sort);
         }
 
-        List<TestSequence> sequences =
-                testSequenceRepository.searchByName(search, sort);
-
-        // 4) Map til DTO
         return sequences.stream()
                 .map(TestSequenceMapper::toDto)
                 .toList();

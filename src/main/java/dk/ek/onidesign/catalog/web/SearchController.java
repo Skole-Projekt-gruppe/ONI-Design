@@ -9,6 +9,6 @@ public class SearchController
 
     @GetMapping("/Search")
     public String showModulesPage() {
-        return "SearchAndSort.html";
+        return "ModuleTable.html";
     }
 }
