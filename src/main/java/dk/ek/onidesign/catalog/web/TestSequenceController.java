@@ -20,11 +20,12 @@ public class TestSequenceController {
     }
     @GetMapping
     public ResponseEntity<List<TestSequenceDto>> search(
+            @RequestParam(required = false) Long moduleId,
             @RequestParam(required = false) String search,
             @RequestParam(defaultValue = "name") String sortField,
             @RequestParam(defaultValue = "asc") String sortDir
     ) {
-        List<TestSequenceDto> dtos = testSequenceService.search(search, sortField, sortDir);
+        List<TestSequenceDto> dtos = testSequenceService.search(moduleId, search, sortField, sortDir);
         return ResponseEntity.ok(dtos);
     }
 

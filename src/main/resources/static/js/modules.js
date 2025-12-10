@@ -30,12 +30,33 @@ function formatDate(isoString) {
 
 // === Hent packData for et moduleId og byg indholdet ===
 async function loadPackDataIntoBox(module, box) {
-    // Overskrift
     box.innerHTML = "";
+
+    // === TOP-LINJE: knap + overskrift ===
+    const headerRow = document.createElement("div");
+    headerRow.classList.add("packdata-header");
+
+    const goToTsBtn = document.createElement("button");
+    goToTsBtn.type = "button";
+    goToTsBtn.classList.add("edit-btn", "testsequence-btn");
+    goToTsBtn.textContent = "Vis TestSequences";
+
+    // Når vi klikker, sender vi brugeren videre til TestSequenceTabel med moduleId i URL'en
+    goToTsBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        // Læg mærke til .html her
+        window.location.href = `/testsequencetabel.html?moduleId=${module.moduleId}`;
+    });
+
+
     const h = document.createElement("strong");
     h.textContent = "PackData detaljer";
-    box.appendChild(h);
 
+    headerRow.appendChild(goToTsBtn);
+    headerRow.appendChild(h);
+    box.appendChild(headerRow);
+
+    // === Loading-tekst som før ===
     const loading = document.createElement("p");
     loading.textContent = "Henter data...";
     box.appendChild(loading);
@@ -85,26 +106,58 @@ async function loadPackDataIntoBox(module, box) {
             valueTd.textContent = (value ?? value === 0) ? value : "-";
             tr.appendChild(valueTd);
 
-            // Kolonne 3: Edit-knap (kun hvis canEdit = true)
+            // Kolonne 3: Edit + Delete (kun hvis canEdit = true)
             const actionTd = document.createElement("td");
             if (canEdit) {
+                // EDIT-knap (som før)
                 const editBtn = document.createElement("button");
                 editBtn.type = "button";
                 editBtn.classList.add("edit-btn");
                 editBtn.textContent = "Edit";
 
                 editBtn.addEventListener("click", (e) => {
-                    e.stopPropagation(); // så vi ikke også åbner/lukker dropdown
-                    // TODO: her kan I senere åbne en rigtig form.
+                    e.stopPropagation();
                     alert(`Edit '${label}' for module ${module.moduleName ?? module.moduleId}`);
                 });
-
                 actionTd.appendChild(editBtn);
-            }
-            tr.appendChild(actionTd);
 
+                // NY: DELETE-knap
+                const deleteBtn = document.createElement("button");
+                deleteBtn.type = "button";
+                deleteBtn.classList.add("delete-btn");
+                deleteBtn.textContent = "Delete";
+
+                deleteBtn.addEventListener("click", async (e) => {
+                    e.stopPropagation(); // så vi ikke åbner/lukker dropdown
+
+                    const ok = confirm(
+                        `Vil du slette PackData (ID: ${pd.packDataId}) for module ${module.moduleName ?? module.moduleId}?`
+                    );
+                    if (!ok) return;
+
+                    try {
+                        const res = await fetch(`${PACKDATA_API}/${pd.packDataId}`, {
+                            method: "DELETE"
+                        });
+
+                        if (!res.ok) {
+                            throw new Error("API-fejl: " + res.status);
+                        }
+
+                        // Simpelt feedback – du kan gøre det pænere senere
+                        box.innerHTML = "<p>PackData er slettet.</p>";
+                    } catch (err) {
+                        console.error(err);
+                        alert("Kunne ikke slette PackData.");
+                    }
+                });
+                actionTd.appendChild(deleteBtn);
+            }
+
+            tr.appendChild(actionTd);
             return tr;
         }
+
 
         // === Alle PackData-felter ===
         tbodyPd.appendChild(row("PackData ID", pd.packDataId, false));

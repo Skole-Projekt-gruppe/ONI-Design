@@ -26,5 +26,14 @@ public class TestResultController {
         List<TestResultDto> dtos = testResultService.getResultsForSequence(sequenceId, sortField, sortDir);
         return ResponseEntity.ok(dtos);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTestResult(@PathVariable Long id) {
+        boolean deleted = testResultService.deleteById(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build(); // 204
+        } else {
+            return ResponseEntity.notFound().build();  // 404 hvis id ikke findes
+        }
+    }
 
 }

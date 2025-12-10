@@ -62,4 +62,11 @@ public class TestResultService {
         return getResultsForSequence(sequenceId, "testResultId", "asc");
     }
 
+    public boolean deleteById(Long id) {
+        if (!testResultRepository.existsById(id)) {
+            return false;
+        }
+        testResultRepository.deleteById(id);
+        return true;
+    }
 }

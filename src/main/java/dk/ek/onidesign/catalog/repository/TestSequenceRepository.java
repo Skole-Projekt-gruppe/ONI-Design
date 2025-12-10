@@ -18,4 +18,15 @@ public interface TestSequenceRepository extends JpaRepository<TestSequence, Long
                OR LOWER(ts.name) LIKE LOWER(CONCAT('%', :search, '%')))
         """)
     List<TestSequence> searchByName(@Param("search") String search, Sort sort);
+
+    @Query("""
+        SELECT ts
+        FROM TestSequence ts
+        WHERE ts.module.moduleId = :moduleId
+          AND (:search IS NULL OR :search = '' 
+               OR LOWER(ts.name) LIKE LOWER(CONCAT('%', :search, '%')))
+        """)
+    List<TestSequence> searchByModuleIdAndName(@Param("moduleId") Long moduleId,
+                                               @Param("search") String search,
+                                               Sort sort);
 }
