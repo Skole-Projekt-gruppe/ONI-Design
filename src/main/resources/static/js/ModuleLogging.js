@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
             console.log(result);
             form.reset();
+            window.location.href = "/ModuleTable.html";
 
         } catch (error) {
             console.log(error);

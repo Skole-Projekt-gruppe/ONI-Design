@@ -338,3 +338,23 @@ document.querySelectorAll("th[data-sort]").forEach(th => {
         loadModules();
     });
 });
+
+function createbtn() {
+    const btndiv =document.getElementById("button-div");
+    const btn = document.createElement("button");
+
+    btn.type = "button";
+    btn.classList.add("edit-btn");
+    btn.style.margin = "0.5rem 0 1rem 0";
+    btn.textContent = "Create new Module";
+
+    btn.addEventListener("click", () => {
+        window.location.href = `/ModuleLogging.html`;
+    });
+
+    btndiv.appendChild(btn);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    createbtn();
+});

@@ -36,7 +36,7 @@ function initCreateButton() {
 
     createBtn.addEventListener("click", () => {
         const moduleIdForUrl = currentModuleId ?? "";
-        window.location.href = `/ModuleLogging.html?moduleId=${moduleIdForUrl}`;
+        window.location.href = `/TestSequenceLogging.html?moduleId=${moduleIdForUrl}`;
     });
 
     // Indsæt knappen lige under H1
