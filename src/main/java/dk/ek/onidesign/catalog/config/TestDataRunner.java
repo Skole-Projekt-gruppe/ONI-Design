@@ -1,3 +1,5 @@
+/*
+
 package dk.ek.onidesign.catalog.config;
 
 import dk.ek.onidesign.catalog.entity.Module;
@@ -53,3 +55,5 @@ public class TestDataRunner implements CommandLineRunner {
         System.out.println("Module med PackData, TestSequence og TestResult gemt!");
     }
 }
+
+ */
