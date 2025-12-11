@@ -24,13 +24,13 @@ public class PDFService {
     private static final float SECTION_SPACING = 35f;
     private static final float LINE_SPACING = 18f;
 
-    public byte[] generatePdf(ModulePackDataDto module) {
+    public byte[] generatePdf(ModulePackDataDto module, TestSequenceTestResultDto result) {
 
         try (PDDocument doc = new PDDocument()) {
 
             renderOverviewPage(doc, module);
             renderPackDataPage(doc, module);
-            renderTestPage(doc, module);
+            renderTestPage(doc, result);
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             doc.save(out);
@@ -124,7 +124,7 @@ public class PDFService {
     // --------------------------------------------------------------------------
     // PAGE 3 — TEST LIST + TEST RESULTS
     // --------------------------------------------------------------------------
-    private void renderTestPage(PDDocument doc, ModulePackDataDto module) throws IOException {
+    private void renderTestPage(PDDocument doc, TestSequenceTestResultDto tr) throws IOException {
 
         PDPage page = new PDPage(PDRectangle.A4);
         doc.addPage(page);
@@ -139,39 +139,36 @@ public class PDFService {
         drawDivider(cs, y);
         y -= 30;
 
-        // Left column: Test names
-        float yLeft = y;
+        // LEFT COLUMN — Test Sequence Info
+        drawText(cs, "Test sequence", LEFT, y, 14, true);
+        y -= 25;
 
-        List<TestSequenceDto> sequences = module.testSequences();
-        for (TestSequenceDto seq : sequences) {
-            drawText(cs, seq.name(), LEFT, yLeft, 12, false);
-            yLeft -= LINE_SPACING;
-        }
+        y = listLine(cs, "Sequence name", tr.name(), LEFT, y);
+        y = listLine(cs, "Description", tr.description(), LEFT, y);
+        y = listLine(cs, "Order", tr.sequenceOrder(), LEFT, y);
 
-        // Right column: Test data for first test
-        if (!sequences.isEmpty() && !sequences.get(0).testResults().isEmpty()) {
-            TestResultDto tr = sequences.get(0).testResults().get(0);
+        // RIGHT COLUMN — Test Result Info
+        float col = LEFT + 250;
+        float yRight = TOP - 70;
 
-            float yRight = y;
+        drawText(cs, "Test result", col, TOP - 40, 14, true);
 
-            float col = LEFT + 250;
-
-            yRight = listLine(cs, "Starting voltage (V)", tr.startingVoltageV(), col, yRight);
-            yRight = listLine(cs, "Peak charge voltage (V)", tr.peakChargeVoltageV(), col, yRight);
-            yRight = listLine(cs, "Discharge voltage (V)", tr.dischargeVoltageV(), col, yRight);
-            yRight = listLine(cs, "Voltage imbalance max (V)", tr.voltageImbalanceMaxV(), col, yRight);
-            yRight = listLine(cs, "Nominal temp (°C)", tr.nominalTempC(), col, yRight);
-            yRight = listLine(cs, "Max temp (°C)", tr.maxTempC(), col, yRight);
-            yRight = listLine(cs, "Min temp (°C)", tr.minTempC(), col, yRight);
-            yRight = listLine(cs, "Max discharge (A)", tr.maxDischargeA(), col, yRight);
-            yRight = listLine(cs, "Sustained discharge (s)", tr.sustainedMaxDischargeSec(), col, yRight);
-            yRight = listLine(cs, "Temp cutoff reached", tr.tempCutoffReached(), col, yRight);
-            yRight = listLine(cs, "Faults encountered", tr.faultsEncountered(), col, yRight);
-            yRight = listLine(cs, "Fault type", tr.faultType(), col, yRight);
-        }
+        yRight = listLine(cs, "Starting voltage (V)", tr.startingVoltageV(), col, yRight);
+        yRight = listLine(cs, "Peak charge voltage (V)", tr.peakChargeVoltageV(), col, yRight);
+        yRight = listLine(cs, "Discharge voltage (V)", tr.dischargeVoltageV(), col, yRight);
+        yRight = listLine(cs, "Voltage imbalance max (V)", tr.voltageImbalanceMaxV(), col, yRight);
+        yRight = listLine(cs, "Nominal temp (°C)", tr.nominalTempC(), col, yRight);
+        yRight = listLine(cs, "Max temp (°C)", tr.maxTempC(), col, yRight);
+        yRight = listLine(cs, "Min temp (°C)", tr.minTempC(), col, yRight);
+        yRight = listLine(cs, "Max discharge (A)", tr.maxDischargeA(), col, yRight);
+        yRight = listLine(cs, "Sustained discharge (s)", tr.sustainedMaxDischargeSec(), col, yRight);
+        yRight = listLine(cs, "Temp cutoff reached", tr.tempCutoffReached(), col, yRight);
+        yRight = listLine(cs, "Faults encountered", tr.faultsEncountered(), col, yRight);
+        yRight = listLine(cs, "Fault type", tr.faultType(), col, yRight);
 
         cs.close();
     }
+
 
     // --------------------------------------------------------------------------
     // HELPER FUNCTIONS
