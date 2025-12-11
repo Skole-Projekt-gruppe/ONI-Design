@@ -24,12 +24,12 @@ public class PDFService {
     private static final float SECTION_SPACING = 35f;
     private static final float LINE_SPACING = 18f;
 
-    public byte[] generatePdf(ModuleDto module) {
+    public byte[] generatePdf(ModulePackDataDto module) {
 
         try (PDDocument doc = new PDDocument()) {
 
             renderOverviewPage(doc, module);
-            renderPackDataPage(doc, module.packData());
+            renderPackDataPage(doc, module);
             renderTestPage(doc, module);
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -44,7 +44,7 @@ public class PDFService {
     // --------------------------------------------------------------------------
     // PAGE 1 — OVERVIEW
     // --------------------------------------------------------------------------
-    private void renderOverviewPage(PDDocument doc, ModuleDto module) throws IOException {
+    private void renderOverviewPage(PDDocument doc, ModulePackDataDto module) throws IOException {
         PDPage page = new PDPage(PDRectangle.A4);
         doc.addPage(page);
 
@@ -57,9 +57,9 @@ public class PDFService {
         y -= SECTION_SPACING;
 
         // Big values layout
-        drawBigValue(cs, module.packData().nominalCapacityKwh() + " kWh", LEFT, y);
-        drawBigValue(cs, module.packData().grossWeightKg() + " Kg", LEFT + 180, y);
-        drawBigValue(cs, module.packData().nominalVoltageV() + " Volt", LEFT + 340, y);
+        drawBigValue(cs, module.nominalCapacityKwh() + " kWh", LEFT, y);
+        drawBigValue(cs, module.grossWeightKg() + " Kg", LEFT + 180, y);
+        drawBigValue(cs, module.nominalVoltageV() + " Volt", LEFT + 340, y);
         y -= 60;
 
         // Divider Line
@@ -79,7 +79,7 @@ public class PDFService {
     // --------------------------------------------------------------------------
     // PAGE 2 — PACK DATA (left) + MODULE DATA (right)
     // --------------------------------------------------------------------------
-    private void renderPackDataPage(PDDocument doc, PackDataDto p) throws IOException {
+    private void renderPackDataPage(PDDocument doc, ModulePackDataDto p) throws IOException {
 
         PDPage page = new PDPage(PDRectangle.A4);
         doc.addPage(page);
@@ -124,7 +124,7 @@ public class PDFService {
     // --------------------------------------------------------------------------
     // PAGE 3 — TEST LIST + TEST RESULTS
     // --------------------------------------------------------------------------
-    private void renderTestPage(PDDocument doc, ModuleDto module) throws IOException {
+    private void renderTestPage(PDDocument doc, ModulePackDataDto module) throws IOException {
 
         PDPage page = new PDPage(PDRectangle.A4);
         doc.addPage(page);
