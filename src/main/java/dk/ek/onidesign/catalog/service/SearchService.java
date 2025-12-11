@@ -56,22 +56,4 @@ public class SearchService
         // 5) Kun sortering
         return repository.findAll(sort);
     }
-
-    /*
-    public Module getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Ingen module fundet med id: " + id));
-    }
-
-    public Module save(Module module) {
-        return repository.save(module);
-    }
-
-    public void deleteById(Long id) {
-        if (!repository.existsById(id)) {
-            throw new NotFoundException("Kan ikke slette. Ingen module med id: " + id);
-        }
-        repository.deleteById(id);
-    }
-    */
 }

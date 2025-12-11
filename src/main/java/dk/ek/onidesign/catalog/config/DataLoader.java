@@ -1,3 +1,5 @@
+/*
+
 package dk.ek.onidesign.catalog.config;
 
 import dk.ek.onidesign.catalog.entity.Module;
@@ -37,3 +39,4 @@ public class DataLoader {
 }
 
 
+ */

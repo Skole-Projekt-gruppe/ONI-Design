@@ -18,11 +18,21 @@ public class TestSequenceController {
     public TestSequenceController(TestSequenceService testSequenceService) {
         this.testSequenceService = testSequenceService;
     }
-
+    @GetMapping
+    public List<TestSequenceDto> getTestSequences(
+            @RequestParam Long moduleId
+    ) {
+        return testSequenceService.getByModuleId(moduleId);
+    }
     @PostMapping("/testresult")
     public ResponseEntity<TestSequenceTestResultDto> createModulePackData(@RequestBody TestSequenceTestResultDto dto) {
         TestSequenceTestResultDto savedDto = testSequenceService.createTestSequenceTestResult(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDto);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        testSequenceService.deleteTestSequence(id);
+        return ResponseEntity.noContent().build();
     }
 }
 

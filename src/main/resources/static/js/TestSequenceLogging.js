@@ -6,11 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentModuleId = urlParams.get("moduleId");
+
         const data = {
             // Test Sequence
+            moduleId: currentModuleId,
             testSequenceId: null,
-            testSequenceName: document.getElementById("testSequenceName").value,
-            testSequenceDescription: document.getElementById("testSequenceDescription").value,
+            name: document.getElementById("testSequenceName").value,
+            description: document.getElementById("testSequenceDescription").value,
             sequenceOrder: document.getElementById("sequenceOrder").value,
 
             // Test Result
@@ -43,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
             console.log(result);
             form.reset();
+            window.location.href = "/TestSequenceTabel.html?moduleId=" + currentModuleId;
 
         } catch (error) {
             console.log(error);
