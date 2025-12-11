@@ -4,6 +4,8 @@ package dk.ek.onidesign.catalog.service;
 import dk.ek.onidesign.catalog.dto.TestResultDto;
 import dk.ek.onidesign.catalog.dto.TestResultMapper;
 import dk.ek.onidesign.catalog.entity.TestResult;
+import dk.ek.onidesign.catalog.exception.InternalServerException;
+import dk.ek.onidesign.catalog.exception.NotFoundException;
 import dk.ek.onidesign.catalog.repository.TestResultRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -21,47 +23,21 @@ public class TestResultService {
 
     /**
      * Hent alle TestResult for en given TestSequence,
-     * sorteret efter valgfrit felt + retning.
-     *
      * @param sequenceId id på TestSequence
-     * @param sortField  hvilket felt i TestResult vi vil sortere efter (fx "testResultId")
-     * @param sortDir    "asc" eller "desc" (case-insensitive)
      * @return liste af TestResultDto
      */
-    public List<TestResultDto> getResultsForSequence(Long sequenceId,
-                                                     String sortField,
-                                                     String sortDir) {
-
-        // 1) Bestem retning (default = asc)
-        Sort.Direction direction =
-                "desc".equalsIgnoreCase(sortDir)
-                        ? Sort.Direction.DESC
-                        : Sort.Direction.ASC;
-
-        // 2) Bestem felt at sortere på (default = testResultId)
-        String sortProperty =
-                (sortField == null || sortField.isBlank())
-                        ? "testResultId"   // <-- skal matche et felt i TestResult-entity
-                        : sortField;
-
-        Sort sort = Sort.by(direction, sortProperty);
-
-        // 3) Hent data via @Query-metoden i repository
-        List<TestResult> results = testResultRepository.findBySequenceId(sequenceId, sort);
-
-        // 4) Map til DTO’er
-        return results.stream()
+    public List<TestResultDto> getResultsForSequence(Long sequenceId) {
+        return testResultRepository
+                .findBySequenceId(sequenceId)
+                .stream()
                 .map(TestResultMapper::toDto)
                 .toList();
     }
 
-    /**
-     * Convenience-metode med standard-sortering (fx brugt af controller).
+    /*
+     * Sletter et TestResult med det givne id.
+     * @return true hvis der blev slettet, false hvis id ikke fandtes.
      */
-    public List<TestResultDto> getResultsForSequence(Long sequenceId) {
-        return getResultsForSequence(sequenceId, "testResultId", "asc");
-    }
-
     public boolean deleteById(Long id) {
         if (!testResultRepository.existsById(id)) {
             return false;

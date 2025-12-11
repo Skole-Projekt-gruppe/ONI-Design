@@ -6,6 +6,7 @@ import dk.ek.onidesign.catalog.dto.ModulePackDataDto;
 import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.entity.PackData;
 import dk.ek.onidesign.catalog.repository.ModuleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +73,7 @@ public class ModuleService {
         );
     }
 
-    // === NY: hent alle moduler med søg + sort ===
+    // Hent alle moduler med søg + sort ===
     public List<ModuleDto> getAll(String search, String sortField, String sortDir) {
 
         // 1) Bestem sorteringsretning (default = asc)
@@ -101,5 +102,9 @@ public class ModuleService {
         return modules.stream()
                 .map(ModuleMapper::toDto)
                 .toList();
+    }
+    @Transactional
+    public void deleteModule(Long moduleId) {
+        moduleRepository.deleteById(moduleId);
     }
 }

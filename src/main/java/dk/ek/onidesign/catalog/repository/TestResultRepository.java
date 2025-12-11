@@ -1,7 +1,6 @@
 package dk.ek.onidesign.catalog.repository;
 
 import dk.ek.onidesign.catalog.entity.TestResult;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,9 +14,7 @@ public interface TestResultRepository extends JpaRepository<TestResult, Long> {
         SELECT tr
         FROM TestResult tr
         WHERE tr.testSequence.testSequenceId = :sequenceId
+        ORDER BY tr.testResultId ASC
         """)
-    List<TestResult> findBySequenceId(
-            @Param("sequenceId") Long sequenceId,
-            Sort sort
-    );
+    List<TestResult> findBySequenceId(@Param("sequenceId") Long sequenceId);
 }

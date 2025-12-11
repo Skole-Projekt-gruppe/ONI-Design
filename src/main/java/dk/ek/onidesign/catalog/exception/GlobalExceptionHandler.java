@@ -37,4 +37,5 @@ public class GlobalExceptionHandler {
         ApiError error = new ApiError(ex.getStatus(), ex.getCode(), ex.getMessage());
         return new ResponseEntity<>(error, ex.getStatus());
     }
+
 }
