@@ -1,0 +1,6 @@
+2025-12-11 13:31:16.949780+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "PEAK_CHARGE_VOLTAGE_V NUMERIC(5, 2)": "2342.00 (6)"; SQL statement:
+insert into test_result (starting_voltage_v,discharge_voltage_v,fault_type,faults_encountered,max_discharge_a,max_temp_c,min_temp_c,nominal_temp_c,peak_charge_voltage_v,sustained_max_discharge_sec,temp_cutoff_reached,test_sequence_id,voltage_imbalance_max_v,test_result_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-224]
+2025-12-11 13:31:20.513437+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "PEAK_CHARGE_VOLTAGE_V NUMERIC(5, 2)": "2342.00 (6)"; SQL statement:
+insert into test_result (starting_voltage_v,discharge_voltage_v,fault_type,faults_encountered,max_discharge_a,max_temp_c,min_temp_c,nominal_temp_c,peak_charge_voltage_v,sustained_max_discharge_sec,temp_cutoff_reached,test_sequence_id,voltage_imbalance_max_v,test_result_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,default) [22001-224]

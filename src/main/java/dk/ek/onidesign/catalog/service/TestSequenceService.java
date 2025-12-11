@@ -6,22 +6,28 @@ import dk.ek.onidesign.catalog.dto.TestSequenceTestResultDto;
 import dk.ek.onidesign.catalog.entity.Module;
 import dk.ek.onidesign.catalog.entity.TestResult;
 import dk.ek.onidesign.catalog.entity.TestSequence;
+import dk.ek.onidesign.catalog.exception.InternalServerException;
 import dk.ek.onidesign.catalog.repository.ModuleRepository;
+import dk.ek.onidesign.catalog.repository.TestResultRepository;
 import dk.ek.onidesign.catalog.repository.TestSequenceRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.data.domain.Sort;
+import jakarta.transaction.Transactional;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import dk.ek.onidesign.catalog.entity.TestSequence;
 
 @Service
 public class TestSequenceService {
 
     private final TestSequenceRepository testSequenceRepository;
     private final ModuleRepository moduleRepository;
+    private final TestResultRepository testResultRepository;
 
-    public TestSequenceService(TestSequenceRepository testSequenceRepository, ModuleRepository moduleRepository) {
+    public TestSequenceService(TestSequenceRepository testSequenceRepository, ModuleRepository moduleRepository, TestResultRepository testResultRepository) {
         this.testSequenceRepository = testSequenceRepository;
         this.moduleRepository = moduleRepository;
+        this.testResultRepository = testResultRepository;
     }
 
     public TestSequenceTestResultDto createTestSequenceTestResult(TestSequenceTestResultDto dto) {
@@ -78,38 +84,18 @@ public class TestSequenceService {
                 testResult.getFaultType()
         );
     }
-    public List<TestSequenceDto> search(Long moduleId,
-                                        String search,
-                                        String sortField,
-                                        String sortDir) {
+    public List<TestSequenceDto> getByModuleId(Long moduleId) {
 
-        Sort.Direction direction =
-                "desc".equalsIgnoreCase(sortDir)
-                        ? Sort.Direction.DESC
-                        : Sort.Direction.ASC;
-
-        String sortProperty =
-                (sortField == null || sortField.isBlank())
-                        ? "name"
-                        : sortField;
-
-        Sort sort = Sort.by(direction, sortProperty);
-
-        List<TestSequence> sequences;
-
-        if (moduleId != null) {
-            // filtrér på Module + evt. søgning
-            sequences = testSequenceRepository.searchByModuleIdAndName(moduleId, search, sort);
-        } else if (search == null || search.isBlank()) {
-            // ingen moduleId, ingen søgning → alle
-            sequences = testSequenceRepository.findAll(sort);
-        } else {
-            // kun søgning på navn
-            sequences = testSequenceRepository.searchByName(search, sort);
-        }
+        List<TestSequence> sequences =
+                testSequenceRepository.findByModule_ModuleIdOrderBySequenceOrderAsc(moduleId);
 
         return sequences.stream()
                 .map(TestSequenceMapper::toDto)
                 .toList();
+    }
+
+    @Transactional
+    public void deleteTestSequence(Long testSequenceId) {
+        testSequenceRepository.deleteById(testSequenceId);
     }
 }

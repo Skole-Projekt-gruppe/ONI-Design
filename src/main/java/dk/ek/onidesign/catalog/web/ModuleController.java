@@ -28,13 +28,15 @@ public class ModuleController {
     ) {
         return moduleService.getAll(search, sortField, sortDir);
     }
-
-
     // Post /api/modiles/packdata
     @PostMapping("/packdata")
     public ResponseEntity<ModulePackDataDto> createModulePackData(@RequestBody ModulePackDataDto dto) {
         ModulePackDataDto savedDto = moduleService.createModulePackData(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDto);
     }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        moduleService.deleteModule(id);
+        return ResponseEntity.noContent().build();
+    }
 }
