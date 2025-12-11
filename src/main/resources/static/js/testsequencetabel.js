@@ -1,70 +1,88 @@
+// === KONSTANTER ===
 const TS_API_URL    = "/api/testsequences";
-const tsSearchInput = document.getElementById("tsSearchInput");
-const tsSearchBtn   = document.getElementById("tsSearchBtn");
-const tsResetBtn    = document.getElementById("tsResetBtn");
-const tsTbody       = document.getElementById("testSequencesBody");
+const TR_API_URL    = "/api/testresults/sequence";
+// const TR_DELETE_API = "/api/testresults"; // bruges ikke længere
 
-let tsSortField = "name";
-let tsSortDir   = "asc";
+const tsTbody = document.getElementById("testSequencesBody");
 
+// Læs moduleId fra URL (?moduleId=2)
+const urlParams = new URLSearchParams(window.location.search);
+const currentModuleId = urlParams.get("moduleId");
+
+// Hjælp: <td>-generator
 function td(text) {
     const cell = document.createElement("td");
     cell.textContent = text ?? "";
     return cell;
 }
 
-function createTestSequenceRows(seq) {
-    const mainTr = document.createElement("tr");
-    mainTr.classList.add("module-row");
+// === Global "Create new TestResult"-knap ===
+function initCreateButton() {
+    const h1 = document.querySelector("h1");
+    if (!h1) return;
 
-    // kolonner til TestSequenceDto
-    mainTr.appendChild(td(seq.name));
-    mainTr.appendChild(td(seq.description));
-    mainTr.appendChild(td(seq.sequenceOrder));
+    const createBtn = document.createElement("button");
+    createBtn.type = "button";
+    createBtn.classList.add("edit-btn");
+    createBtn.style.margin = "0.5rem 0 1rem 0";
+    createBtn.textContent = "Create new TestResult";
 
-    const actionsTd = document.createElement("td");
-    const toggleBtn = document.createElement("button");
-    toggleBtn.type = "button";
-    toggleBtn.classList.add("toggle-btn");
-    toggleBtn.textContent = "▶";
-    actionsTd.appendChild(toggleBtn);
-    mainTr.appendChild(actionsTd);
+    createBtn.addEventListener("click", () => {
+        window.location.href = `/TestSequenceLogging.html?moduleId=${currentModuleId}`;
+    });
 
-    // details-row
-    const detailsTr = document.createElement("tr");
-    detailsTr.classList.add("details-row", "hidden");
+    h1.insertAdjacentElement("afterend", createBtn);
+}
 
-    const detailsTd = document.createElement("td");
-    detailsTd.colSpan = 4;
-
-    const box = document.createElement("div");
-    box.classList.add("details-box");
+// === Hent TestResults for én sequence ===
+async function loadTestResultsForSequence(sequenceId, container) {
+    container.innerHTML = "";
 
     const h = document.createElement("strong");
     h.textContent = "TestResults";
-    box.appendChild(h);
+    container.appendChild(h);
 
-    const results = seq.testResults;
+    const loading = document.createElement("p");
+    loading.textContent = "Henter test results...";
+    container.appendChild(loading);
 
-    if (results && results.length > 0) {
+    try {
+        const res = await fetch(`${TR_API_URL}/${sequenceId}?sortField=testResultId&sortDir=asc`);
+
+        if (res.status === 404) {
+            loading.textContent = "Ingen test results tilknyttet.";
+            return;
+        }
+
+        if (!res.ok) throw new Error("API-fejl: " + res.status);
+
+        const results = await res.json();
+        loading.remove();
+
+        if (!results.length) {
+            const p = document.createElement("p");
+            p.textContent = "Ingen test results tilknyttet.";
+            container.appendChild(p);
+            return;
+        }
+
         const table = document.createElement("table");
         table.classList.add("packdata-table");
 
-        const thead = document.createElement("thead");
-        thead.innerHTML = `
-            <tr>
-                <th>Start V</th>
-                <th>Peak charge V</th>
-                <th>Discharge V</th>
-                <th>Max discharge A</th>
-                <th>Max discharge sek</th>
-                <th>Temp cutoff?</th>
-                <th>Faults</th>
-                <th>Fault type</th>
-                <th></th>
-            </tr>
+        table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>Start V</th>
+                    <th>Peak charge V</th>
+                    <th>Discharge V</th>
+                    <th>Max discharge A</th>
+                    <th>Max discharge sek</th>
+                    <th>Temp cutoff?</th>
+                    <th>Faults</th>
+                    <th>Fault type</th>
+                </tr>
+            </thead>
         `;
-        table.appendChild(thead);
 
         const tbody = document.createElement("tbody");
 
@@ -80,123 +98,113 @@ function createTestSequenceRows(seq) {
             row.appendChild(td(tr.faultsEncountered));
             row.appendChild(td(tr.faultType));
 
-            const editTd = document.createElement("td");
-            const editBtn = document.createElement("button");
-            editBtn.type = "button";
-            editBtn.classList.add("edit-btn");
-            editBtn.textContent = "Edit";
-            editBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                alert("Edit TestResult " + tr.testResultId + " for sequence " + seq.name);
-            });
-            editTd.appendChild(editBtn);
+            // Ingen delete-knap pr. række længere
 
-            row.appendChild(editTd);
             tbody.appendChild(row);
         });
 
         table.appendChild(tbody);
-        box.appendChild(table);
-    } else {
-        const p = document.createElement("p");
-        p.textContent = "Ingen test results tilknyttet.";
-        box.appendChild(p);
+        container.appendChild(table);
+
+    } catch (err) {
+        console.error(err);
+        loading.textContent = "Fejl ved hentning af test results.";
     }
-
-    detailsTd.appendChild(box);
-    detailsTr.appendChild(detailsTd);
-
-    function toggleDetails() {
-        const hidden = detailsTr.classList.contains("hidden");
-        if (hidden) {
-            detailsTr.classList.remove("hidden");
-            toggleBtn.textContent = "▼";
-        } else {
-            detailsTr.classList.add("hidden");
-            toggleBtn.textContent = "▶";
-        }
-    }
-
-    toggleBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        toggleDetails();
-    });
-
-    mainTr.addEventListener("click", () => {
-        toggleDetails();
-    });
-
-    return { mainTr, detailsTr };
 }
 
+// === Render TestSequences ===
 function renderTestSequenceTable(sequences) {
-    if (!sequences || sequences.length === 0) {
+    if (!sequences || !sequences.length) {
         tsTbody.innerHTML = '<tr><td colspan="4">Ingen test sequences fundet.</td></tr>';
         return;
     }
 
     tsTbody.innerHTML = "";
+
     sequences.forEach(seq => {
-        const { mainTr, detailsTr } = createTestSequenceRows(seq);
-        tsTbody.appendChild(mainTr);
-        tsTbody.appendChild(detailsTr);
+        const tr = document.createElement("tr");
+        const tdCell = document.createElement("td");
+        tdCell.colSpan = 4;
+
+        const box = document.createElement("div");
+        box.classList.add("details-box");
+
+        // --- header-linje ---
+        const headerLine = document.createElement("div");
+        headerLine.style.display = "flex";
+        headerLine.style.justifyContent = "space-between";
+        headerLine.style.alignItems = "center";
+
+        const title = document.createElement("h3");
+        title.textContent = seq.name;
+
+        const deleteSeqBtn = document.createElement("button");
+        deleteSeqBtn.classList.add("delete-btn");
+        deleteSeqBtn.textContent = "Delete sequence";
+
+        deleteSeqBtn.addEventListener("click", async (e) => {
+            e.stopPropagation();
+
+            if (!confirm(`Slette hele TestSequence "${seq.name}"?`)) return;
+
+            const res = await fetch(`${TS_API_URL}/${seq.testSequenceId}`, {
+                method: "DELETE"
+            });
+
+            if (res.ok) tr.remove();
+            else alert("Kunne ikke slette test sequence.");
+        });
+
+        headerLine.appendChild(title);
+        headerLine.appendChild(deleteSeqBtn);
+
+        box.appendChild(headerLine);
+
+        // --- info ---
+        const descP = document.createElement("p");
+        descP.textContent = seq.description ?? "";
+        box.appendChild(descP);
+
+        const orderP = document.createElement("p");
+        orderP.textContent = `Sequence order: ${seq.sequenceOrder}`;
+        box.appendChild(orderP);
+
+        // --- test results ---
+        const resultsContainer = document.createElement("div");
+        box.appendChild(resultsContainer);
+
+        tdCell.appendChild(box);
+        tr.appendChild(tdCell);
+        tsTbody.appendChild(tr);
+
+        loadTestResultsForSequence(seq.testSequenceId, resultsContainer);
     });
 }
 
+// === Hent sequences for modulet (INGEN SEARCH, INGEN SORT) ===
 async function loadTestSequences() {
-    const search = tsSearchInput ? tsSearchInput.value.trim() : "";
-
-    let url = `${TS_API_URL}?sortField=${tsSortField}&sortDir=${tsSortDir}`;
-    if (search) {
-        url += "&search=" + encodeURIComponent(search);
+    if (!currentModuleId) {
+        tsTbody.innerHTML = '<tr><td colspan="4">Intet moduleId angivet i URL\'en.</td></tr>';
+        return;
     }
 
     try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("API-fejl: " + res.status);
+        const res = await fetch(`${TS_API_URL}?moduleId=${currentModuleId}`);
+
+        if (!res.ok) {
+            throw new Error("API-fejl: " + res.status);
+        }
+
         const data = await res.json();
         renderTestSequenceTable(data);
 
     } catch (err) {
         console.error(err);
-        tsTbody.innerHTML = '<tr><td colspan="4">Fejl ved hentning af data.</td></tr>';
+        tsTbody.innerHTML =
+            '<tr><td colspan="4">Fejl ved hentning af test sequences.</td></tr>';
     }
 }
 
-// events
-if (tsSearchBtn) {
-    tsSearchBtn.addEventListener("click", loadTestSequences);
-}
-if (tsResetBtn) {
-    tsResetBtn.addEventListener("click", () => {
-        tsSearchInput.value = "";
-        loadTestSequences();
-    });
-}
-if (tsSearchInput) {
-    tsSearchInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            loadTestSequences();
-        }
-    });
-}
-
-// sortering på headers
-document.querySelectorAll("th[data-sort]").forEach(th => {
-    th.addEventListener("click", () => {
-        const field = th.dataset.sort;
-
-        if (field === tsSortField) {
-            tsSortDir = tsSortDir === "asc" ? "desc" : "asc";
-        } else {
-            tsSortField = field;
-            tsSortDir   = "asc";
-        }
-
-        loadTestSequences();
-    });
-});
-
-// første load
+// Init
+initCreateButton();
 loadTestSequences();

@@ -1,5 +1,5 @@
 // === KONSTANTER ===
-const API_URL     = "/api/modules";
+const API_URL      = "/api/modules";
 const PACKDATA_API = "/api/packdatas";
 
 const searchInput = document.getElementById("searchInput");
@@ -30,12 +30,66 @@ function formatDate(isoString) {
 
 // === Hent packData for et moduleId og byg indholdet ===
 async function loadPackDataIntoBox(module, box) {
-    // Overskrift
     box.innerHTML = "";
+
+    // === TOP-LINJE: overskrift + knapper ===
+    const headerRow = document.createElement("div");
+    headerRow.classList.add("packdata-header");
+
     const h = document.createElement("strong");
     h.textContent = "PackData detaljer";
-    box.appendChild(h);
 
+    // Knap til TestSequences
+    const goToTsBtn = document.createElement("button");
+    goToTsBtn.type = "button";
+    goToTsBtn.classList.add("edit-btn", "testsequence-btn");
+    goToTsBtn.textContent = "Vis TestSequences";
+
+    goToTsBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        window.location.href = `/testsequencetabel.html?moduleId=${module.moduleId}`;
+    });
+
+    // Delete module-knap
+    const deleteModuleBtn = document.createElement("button");
+    deleteModuleBtn.type = "button";
+    deleteModuleBtn.classList.add("delete-btn");
+    deleteModuleBtn.textContent = "Delete module";
+
+    deleteModuleBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+
+        const ok = confirm(
+            `Vil du slette modulet "${module.moduleName ?? module.moduleId}" ` +
+            `og alle tilknyttede PackData / TestSequences / TestResults?`
+        );
+        if (!ok) return;
+
+        try {
+            const res = await fetch(`${API_URL}/${module.moduleId}`, {
+                method: "DELETE"
+            });
+
+            if (!res.ok) {
+                throw new Error("API-fejl: " + res.status);
+            }
+
+            // Når modulet er slettet, henter vi modul-listen igen
+            await loadModules();
+        } catch (err) {
+            console.error(err);
+            alert("Kunne ikke slette modulet.");
+        }
+    });
+
+    // Rækkefølgen i headeren – kan styles med flex i CSS
+    headerRow.appendChild(h);
+    headerRow.appendChild(goToTsBtn);
+    headerRow.appendChild(deleteModuleBtn);
+
+    box.appendChild(headerRow);
+
+    // === Loading-tekst som før ===
     const loading = document.createElement("p");
     loading.textContent = "Henter data...";
     box.appendChild(loading);
@@ -52,10 +106,9 @@ async function loadPackDataIntoBox(module, box) {
         }
 
         const pd = await res.json();
-        // Fjern "henter..."-tekst
         loading.remove();
 
-        // Laver en lille tabel med: Felt | Værdi | Edit-knap
+        // Tabel med: Felt | Værdi
         const table = document.createElement("table");
         table.classList.add("packdata-table");
 
@@ -64,65 +117,44 @@ async function loadPackDataIntoBox(module, box) {
             <tr>
                 <th>Felt</th>
                 <th>Værdi</th>
-                <th></th>
             </tr>
         `;
         table.appendChild(thead);
 
         const tbodyPd = document.createElement("tbody");
 
-        // Hjælp til at lave en række
-        function row(label, value, canEdit) {
+        // Hjælp til at lave en række (KUN label + value)
+        function row(label, value) {
             const tr = document.createElement("tr");
 
-            // Kolonne 1: navn på feltet
             const labelTd = document.createElement("td");
             labelTd.textContent = label;
             tr.appendChild(labelTd);
 
-            // Kolonne 2: selve værdien
             const valueTd = document.createElement("td");
             valueTd.textContent = (value ?? value === 0) ? value : "-";
             tr.appendChild(valueTd);
-
-            // Kolonne 3: Edit-knap (kun hvis canEdit = true)
-            const actionTd = document.createElement("td");
-            if (canEdit) {
-                const editBtn = document.createElement("button");
-                editBtn.type = "button";
-                editBtn.classList.add("edit-btn");
-                editBtn.textContent = "Edit";
-
-                editBtn.addEventListener("click", (e) => {
-                    e.stopPropagation(); // så vi ikke også åbner/lukker dropdown
-                    // TODO: her kan I senere åbne en rigtig form.
-                    alert(`Edit '${label}' for module ${module.moduleName ?? module.moduleId}`);
-                });
-
-                actionTd.appendChild(editBtn);
-            }
-            tr.appendChild(actionTd);
 
             return tr;
         }
 
         // === Alle PackData-felter ===
-        tbodyPd.appendChild(row("PackData ID", pd.packDataId, false));
+        tbodyPd.appendChild(row("PackData ID", pd.packDataId));
 
-        tbodyPd.appendChild(row("Cell quantity", pd.cellQuantity, true));
-        tbodyPd.appendChild(row("Cell weight (kg)", pd.cellWeightKg, true));
-        tbodyPd.appendChild(row("Gross weight (kg)", pd.grossWeightKg, true));
-        tbodyPd.appendChild(row("Nominal capacity (kWh)", pd.nominalCapacityKwh, true));
-        tbodyPd.appendChild(row("Peak capacity (kWh)", pd.peakCapacityKwh, true));
-        tbodyPd.appendChild(row("Nominal voltage (V)", pd.nominalVoltageV, true));
-        tbodyPd.appendChild(row("Peak voltage (V)", pd.peakVoltageV, true));
-        tbodyPd.appendChild(row("Cutoff voltage (V)", pd.cutoffVoltageV, true));
-        tbodyPd.appendChild(row("Nominal discharge (A)", pd.nominalDischargeA, true));
-        tbodyPd.appendChild(row("Peak discharge (A)", pd.peakDischargeA, true));
-        tbodyPd.appendChild(row("Nominal AC/DC charge (A)", pd.nominalAcDcChargeA, true));
-        tbodyPd.appendChild(row("Nominal charge time (min)", pd.nominalChargeTimeMin, true));
-        tbodyPd.appendChild(row("Peak DC charge (A)", pd.peakDcChargeA, true));
-        tbodyPd.appendChild(row("Peak charge time (min)", pd.peakChargeTimeMin, true));
+        tbodyPd.appendChild(row("Cell quantity", pd.cellQuantity));
+        tbodyPd.appendChild(row("Cell weight (kg)", pd.cellWeightKg));
+        tbodyPd.appendChild(row("Gross weight (kg)", pd.grossWeightKg));
+        tbodyPd.appendChild(row("Nominal capacity (kWh)", pd.nominalCapacityKwh));
+        tbodyPd.appendChild(row("Peak capacity (kWh)", pd.peakCapacityKwh));
+        tbodyPd.appendChild(row("Nominal voltage (V)", pd.nominalVoltageV));
+        tbodyPd.appendChild(row("Peak voltage (V)", pd.peakVoltageV));
+        tbodyPd.appendChild(row("Cutoff voltage (V)", pd.cutoffVoltageV));
+        tbodyPd.appendChild(row("Nominal discharge (A)", pd.nominalDischargeA));
+        tbodyPd.appendChild(row("Peak discharge (A)", pd.peakDischargeA));
+        tbodyPd.appendChild(row("Nominal AC/DC charge (A)", pd.nominalAcDcChargeA));
+        tbodyPd.appendChild(row("Nominal charge time (min)", pd.nominalChargeTimeMin));
+        tbodyPd.appendChild(row("Peak DC charge (A)", pd.peakDcChargeA));
+        tbodyPd.appendChild(row("Peak charge time (min)", pd.peakChargeTimeMin));
 
         table.appendChild(tbodyPd);
         box.appendChild(table);
@@ -135,7 +167,6 @@ async function loadPackDataIntoBox(module, box) {
 
 // Byg én modul-række + én “detalje-række” (dropdown)
 function createModuleRows(module) {
-    // HOVED-rækken (modul-linjen)
     const mainTr = document.createElement("tr");
     mainTr.classList.add("module-row");
 
@@ -145,13 +176,12 @@ function createModuleRows(module) {
     // Kolonne 2: kort beskrivelse
     mainTr.appendChild(td(module.description));
 
-    // Kolonne 3: dato
-    // mainTr.appendChild(td(formatDate(module.createdAt))); Bliver ikke brugt til noget
+    // Kolonne 3: dato (pt. ikke brugt)
+    // mainTr.appendChild(td(formatDate(module.createdAt)));
 
     // Kolonne 4: actions (kun pil)
     const actionsTd = document.createElement("td");
 
-    // Lille “pil” der viser/skjuler detaljer
     const toggleBtn = document.createElement("button");
     toggleBtn.type = "button";
     toggleBtn.classList.add("toggle-btn");
@@ -160,17 +190,16 @@ function createModuleRows(module) {
     actionsTd.appendChild(toggleBtn);
     mainTr.appendChild(actionsTd);
 
-    // DETALJE-rækken (dropdown) – gemt som udgangspunkt
+    // DETALJE-rækken (dropdown)
     const detailsTr = document.createElement("tr");
     detailsTr.classList.add("details-row", "hidden");
 
     const detailsTd = document.createElement("td");
-    detailsTd.colSpan = 4; // matcher 4 kolonner i tabellen
+    detailsTd.colSpan = 4;
 
     const box = document.createElement("div");
     box.classList.add("details-box");
 
-    // bare en tom overskrift – indholdet fyldes først når vi loader PackData
     const h = document.createElement("strong");
     h.textContent = "PackData detaljer";
     box.appendChild(h);
@@ -184,7 +213,7 @@ function createModuleRows(module) {
         const isHidden = detailsTr.classList.contains("hidden");
         if (isHidden) {
             detailsTr.classList.remove("hidden");
-            toggleBtn.textContent = "▼"; // åben
+            toggleBtn.textContent = "▼";
 
             if (!packDataLoaded) {
                 packDataLoaded = true;
@@ -192,17 +221,15 @@ function createModuleRows(module) {
             }
         } else {
             detailsTr.classList.add("hidden");
-            toggleBtn.textContent = "▶"; // lukket
+            toggleBtn.textContent = "▶";
         }
     }
 
-    // Klik på pilen
     toggleBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         toggleDetails();
     });
 
-    // Klik på selve rækken gør det samme
     mainTr.addEventListener("click", () => {
         toggleDetails();
     });
@@ -217,7 +244,7 @@ function renderTable(modules) {
         return;
     }
 
-    tbody.innerHTML = ""; // ryd
+    tbody.innerHTML = "";
 
     modules.forEach(m => {
         const { mainTr, detailsTr } = createModuleRows(m);
@@ -273,15 +300,34 @@ document.querySelectorAll("th[data-sort]").forEach(th => {
     th.addEventListener("click", () => {
         const field = th.dataset.sort;
 
-        // Hvis man klikker på samme felt → skift retning
         if (field === currentSortField) {
             currentSortDir = currentSortDir === "asc" ? "desc" : "asc";
         } else {
-            // Nyt felt → altid start med ASC
             currentSortField = field;
             currentSortDir   = "asc";
         }
 
         loadModules();
     });
+});
+
+// Create new Module-knap øverst
+function createbtn() {
+    const btndiv = document.getElementById("button-div");
+    const btn = document.createElement("button");
+
+    btn.type = "button";
+    btn.classList.add("edit-btn");
+    btn.style.margin = "0.5rem 0 1rem 0";
+    btn.textContent = "Create new Module";
+
+    btn.addEventListener("click", () => {
+        window.location.href = `/ModuleLogging.html`;
+    });
+
+    btndiv.appendChild(btn);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    createbtn();
 });
