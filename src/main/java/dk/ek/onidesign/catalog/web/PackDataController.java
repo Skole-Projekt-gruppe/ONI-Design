@@ -5,6 +5,7 @@ import dk.ek.onidesign.catalog.dto.PackDataMapper;
 import dk.ek.onidesign.catalog.entity.PackData;
 import dk.ek.onidesign.catalog.repository.PackDataRepository;
 import dk.ek.onidesign.catalog.service.PackDataService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,12 @@ public class PackDataController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(dto);
+    }
+
+    @PostMapping
+    public ResponseEntity<PackDataDto> createPackData(@Valid @RequestBody PackDataDto dto) {
+        PackDataDto saved = packDataService.createPackData(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
 }
