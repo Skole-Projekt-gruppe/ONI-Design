@@ -21,6 +21,11 @@ public class PackDataController {
 
     @GetMapping("/{moduleId}")
     public ResponseEntity<PackDataDto> getPackData(@PathVariable Long moduleId) {
-        return ResponseEntity.ok(packDataService.getByModuleId(moduleId));
+        PackDataDto dto = packDataService.getByModuleId(moduleId);
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
     }
+
 }

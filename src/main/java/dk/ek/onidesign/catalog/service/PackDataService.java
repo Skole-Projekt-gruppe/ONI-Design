@@ -3,7 +3,6 @@ package dk.ek.onidesign.catalog.service;
 import dk.ek.onidesign.catalog.dto.PackDataDto;
 import dk.ek.onidesign.catalog.dto.PackDataMapper;
 import dk.ek.onidesign.catalog.entity.PackData;
-import dk.ek.onidesign.catalog.exception.NotFoundException;
 import dk.ek.onidesign.catalog.repository.PackDataRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +17,10 @@ public class PackDataService {
 
     public PackDataDto getByModuleId(Long moduleId) {
         PackData pack = packDataRepository.findByModule_ModuleId(moduleId);
-
         if (pack == null) {
-            throw new NotFoundException("PackData for moduleId " + moduleId + " blev ikke fundet");
+            return null;        // Controller håndterer 404
         }
         return PackDataMapper.toDto(pack);
     }
+
 }
