@@ -19,20 +19,20 @@ public class TestSequenceController {
         this.testSequenceService = testSequenceService;
     }
     @GetMapping
-    public ResponseEntity<List<TestSequenceDto>> search(
-            @RequestParam(required = false) Long moduleId,
-            @RequestParam(required = false) String search,
-            @RequestParam(defaultValue = "name") String sortField,
-            @RequestParam(defaultValue = "asc") String sortDir
+    public List<TestSequenceDto> getTestSequences(
+            @RequestParam Long moduleId
     ) {
-        List<TestSequenceDto> dtos = testSequenceService.search(moduleId, search, sortField, sortDir);
-        return ResponseEntity.ok(dtos);
+        return testSequenceService.getByModuleId(moduleId);
     }
-
     @PostMapping("/testresult")
     public ResponseEntity<TestSequenceTestResultDto> createModulePackData(@RequestBody TestSequenceTestResultDto dto) {
         TestSequenceTestResultDto savedDto = testSequenceService.createTestSequenceTestResult(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDto);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        testSequenceService.deleteTestSequence(id);
+        return ResponseEntity.noContent().build();
     }
 }
 
