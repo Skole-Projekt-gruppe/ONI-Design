@@ -1,5 +1,3 @@
-/*
-
 package dk.ek.onidesign.catalog.config;
 
 import dk.ek.onidesign.catalog.entity.Module;
@@ -19,12 +17,19 @@ public class DataLoader {
     CommandLineRunner initData(ModuleRepository moduleRepository,
                                PackDataRepository packDataRepository) {
         return args -> {
-            if (moduleRepository.count() == 0) {
-                Module module = new Module();
-                module.setModuleName("MODULE 01");
-                module.setDescription("MODULE 01 is a compact battery module design...");
-                moduleRepository.save(module);
 
+            // Find eller opret modulet
+            Module module = moduleRepository.findById(1L)
+                    .orElseGet(() -> {
+                        Module m = new Module();
+                        m.setModuleName("Modul 1");
+                        m.setDescription("Beskrivelse");
+                        return moduleRepository.save(m);
+                    });
+
+            // Sørg for packData findes for moduleId=1
+            PackData existing = packDataRepository.findByModule_ModuleId(module.getModuleId());
+            if (existing == null) {
                 PackData packData = new PackData();
                 packData.setModule(module);
                 packData.setCellQuantity(510);
@@ -39,4 +44,4 @@ public class DataLoader {
 }
 
 
- */
+
