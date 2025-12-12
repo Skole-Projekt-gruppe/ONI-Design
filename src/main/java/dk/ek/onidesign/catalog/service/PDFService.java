@@ -224,4 +224,8 @@ public class PDFService {
         drawText(cs, line.toString(), x, y, size, false);
         return y - leading;
     }
+
+    public byte[] generatePdf(ModuleDto dto) {
+        return new byte[0];
+    }
 }
