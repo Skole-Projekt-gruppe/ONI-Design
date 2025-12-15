@@ -3,6 +3,7 @@ package dk.ek.onidesign.catalog.service;
 import dk.ek.onidesign.catalog.dto.ModuleDto;
 import dk.ek.onidesign.catalog.dto.ModuleMapper;
 import dk.ek.onidesign.catalog.entity.Module;
+import dk.ek.onidesign.catalog.exception.ModuleNotFoundException;
 import dk.ek.onidesign.catalog.repository.ModuleRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class ModuleReportService {
 
     public byte[] generatePdf(Long moduleId) {
         Module module = moduleRepository.findById(moduleId)
-                .orElseThrow(() -> new RuntimeException("Module not found"));
+                .orElseThrow(() -> new ModuleNotFoundException(moduleId));
 
         ModuleDto dto = ModuleMapper.toDto(module);
 
