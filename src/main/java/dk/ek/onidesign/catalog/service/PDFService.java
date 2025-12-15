@@ -26,11 +26,17 @@ public class PDFService {
 
     public byte[] generatePdf(ModulePackDataDto module, TestSequenceTestResultDto result) {
 
+        // Opret et nyt PDF-dokument
         try (PDDocument doc = new PDDocument()) {
+
+
+            // Render sider
 
             renderOverviewPage(doc, module);
             renderPackDataPage(doc, module);
             renderTestPage(doc, result);
+
+            // Gem dokumentet til en byte array
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             doc.save(out);
@@ -45,8 +51,13 @@ public class PDFService {
     // PAGE 1 — OVERVIEW
     // --------------------------------------------------------------------------
     private void renderOverviewPage(PDDocument doc, ModulePackDataDto module) throws IOException {
+
+        // Opret en ny side
+
         PDPage page = new PDPage(PDRectangle.A4);
         doc.addPage(page);
+
+        // Opret en content stream til at skrive på siden
 
         PDPageContentStream cs = new PDPageContentStream(doc, page);
 
