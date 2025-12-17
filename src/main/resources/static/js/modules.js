@@ -82,10 +82,25 @@ async function loadPackDataIntoBox(module, box) {
         }
     });
 
+    // Pdf button
+    const makePDFBtn = document.createElement("button");
+    makePDFBtn.type = "button";
+    makePDFBtn.classList.add("edit-btn", "pdf-btn");
+    makePDFBtn.textContent = "Make PDF";
+
+    makePDFBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        window.open(`/api/report/module/${module.moduleId}`, "_blank");
+
+    });
+
+
+
     // Rækkefølgen i headeren – kan styles med flex i CSS
     headerRow.appendChild(h);
     headerRow.appendChild(goToTsBtn);
     headerRow.appendChild(deleteModuleBtn);
+    headerRow.appendChild(makePDFBtn);
 
     box.appendChild(headerRow);
 
