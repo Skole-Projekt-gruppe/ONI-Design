@@ -10,6 +10,8 @@ public class DashboardDto {
     private BigDecimal nominalVoltageV;
     private String description;
 
+    private String overviewImageUrl;
+
     public String getModuleName() {
         return moduleName;
     }
@@ -49,4 +51,8 @@ public class DashboardDto {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getOverviewImageUrl() { return overviewImageUrl; }
+    public void setOverviewImageUrl(String overviewImageUrl) { this.overviewImageUrl = overviewImageUrl; }
 }
+
