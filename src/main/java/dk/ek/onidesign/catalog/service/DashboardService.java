@@ -1,11 +1,11 @@
 package dk.ek.onidesign.catalog.service;
 
-import dk.ek.onidesign.catalog.entity.PackData;
+import dk.ek.onidesign.catalog.dto.DashboardDto;
 import dk.ek.onidesign.catalog.entity.Module;
+import dk.ek.onidesign.catalog.entity.PackData;
+import dk.ek.onidesign.catalog.exception.ModuleNotFoundException;
 import dk.ek.onidesign.catalog.repository.ModuleRepository;
 import dk.ek.onidesign.catalog.repository.PackDataRepository;
-import dk.ek.onidesign.catalog.dto.DashboardDto;
-import dk.ek.onidesign.catalog.exception.ModuleNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,9 +29,13 @@ public class DashboardService {
         DashboardDto dto = new DashboardDto();
         dto.setModuleName(module.getModuleName());
         dto.setDescription(module.getDescription());
-        dto.setNominalCapacityKwh(packData.getNominalCapacityKwh());
-        dto.setGrossWeightKg(packData.getGrossWeightKg());
-        dto.setNominalVoltageV(packData.getNominalVoltageV());
+        dto.setOverviewImageUrl(module.getOverviewImageUrl());
+
+        if (packData != null) {
+            dto.setNominalCapacityKwh(packData.getNominalCapacityKwh());
+            dto.setGrossWeightKg(packData.getGrossWeightKg());
+            dto.setNominalVoltageV(packData.getNominalVoltageV());
+        }
 
         return dto;
     }
