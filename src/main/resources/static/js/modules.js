@@ -90,7 +90,8 @@ async function loadPackDataIntoBox(module, box) {
 
     makePDFBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        window.location.href = `/api/report/module/${module.moduleId}`;
+        window.open(`/api/report/module/${module.moduleId}`, "_blank");
+
     });
 
 
