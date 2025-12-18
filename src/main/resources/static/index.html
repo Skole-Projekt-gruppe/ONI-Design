@@ -1,29 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>DIEM | Overview</title>
+
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
 
-<div>
-    <h2>Andet: </h2>
-    <br>
-    <a href="dashboard.html">Dashboard</a>
-</div>
+<header class="topbar">
+    <a class="brand" href="/index.html">
+        <img class="brand-logo" src="/images/diem-logo.png" alt="DIEM">
+    </a>
 
-<div>
-    <h2>Tabeller:</h2>
-    <a href="TestSequenceTabel.html">Test Sequence Tabel</a>
-    <br>
-    <a href="ModuleTable.html">Module Table</a>
-</div>
-<div>
-    <h2>Logging: </h2>
-    <a href="ModuleLogging.html">Module Logging</a>
-    <br>
-    <a href="TestSequenceLogging.html">Test Sequence Logging</a>
-</div>
+    <nav class="tabs">
+        <a class="tab active" href="/index.html">OVERVIEW</a>
+        <a class="tab" href="/packdata.html">PACK DATA</a>
+        <a class="tab" href="/ModuleTable.html">MODULE DATA</a>
+        <a class="tab" href="/TestSequenceTabel.html">TESTS</a>
 
+        <div class="module-picker">
+            <label class="module-picker-label" for="moduleSelect">MODULE</label>
+            <select id="moduleSelect" class="module-select">
+                <option value="1">Loading…</option>
+            </select>
+        </div>
+    </nav>
+</header>
+
+<main class="page">
+    <section class="hero">
+        <div class="hero-left">
+            <div class="hero-image-frame">
+                <img class="hero-image" src="/images/hero.png" alt="Module overview">
+            </div>
+        </div>
+
+        <div class="hero-right">
+            <h1 id="module-name" class="module-title">LOADING...</h1>
+
+            <div class="metrics">
+                <div class="metric">
+                    <div id="capacity" class="metric-value">–</div>
+                    <div class="metric-unit">kWh</div>
+                </div>
+
+                <div class="metric">
+                    <div id="weight" class="metric-value">–</div>
+                    <div class="metric-unit">Kg</div>
+                </div>
+
+                <div class="metric">
+                    <div id="voltage" class="metric-value">–</div>
+                    <div class="metric-unit">VOLT</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <p id="description">Loading description...</p>
+    </section>
+</main>
+
+<script src="/js/dashboard.js"></script>
 </body>
 </html>

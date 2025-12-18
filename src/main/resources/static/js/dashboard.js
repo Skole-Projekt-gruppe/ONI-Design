@@ -40,7 +40,7 @@ async function loadModuleOptions(selectedId) {
 
     select.addEventListener("change", () => {
         const newId = select.value;
-        window.location.href = `/dashboard.html?moduleId=${newId}`;
+        window.location.href = `/index.html?moduleId=${newId}`;
     });
 }
 
