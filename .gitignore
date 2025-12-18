@@ -40,4 +40,5 @@ build/
 /data/*.db
 /data/*.mv.db
 /data/*.trace.db
+/data/diemdb.lock.db
 

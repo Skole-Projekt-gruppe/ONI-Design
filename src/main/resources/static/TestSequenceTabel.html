@@ -4,10 +4,40 @@
     <meta charset="UTF-8">
     <title>TestSequence Tabel</title>
     <link rel="stylesheet" href="/css/modules.css">
+    <link rel="stylesheet" href="css/base.css">
 </head>
 <body>
 
-<h1>TestSequence Tabel</h1>
+<header class="topbar">
+    <a class="brand" href="/index.html">
+        <img class="brand-logo" src="/images/diem-logo.png" alt="DIEM">
+    </a>
+
+    <nav class="tabs">
+        <a class="tab active" href="/index.html">OVERVIEW</a>
+        <a class="tab" href="/ModuleTable.html">MODULE DATA</a>
+        <a id="test-btn" class="tab" href="/TestSequenceTabel.html">TESTS</a>
+        <script>
+            const btn = document.getElementById("test-btn");
+            btn.addEventListener("click", (event) => {
+                event.preventDefault();
+
+                const currentModuleId = new URLSearchParams(window.location.search);
+
+                window.location.href = `/TestSequenceTabel.html?${currentModuleId}`;
+            });
+        </script>
+
+        <div class="module-picker">
+            <label class="module-picker-label" for="moduleSelect">MODULE</label>
+            <select id="moduleSelect" class="module-select">
+                <option value="1">Loading…</option>
+            </select>
+        </div>
+    </nav>
+</header>
+
+<h1>Test Sequence Tabel</h1>
 
 <table>
     <thead>
@@ -24,6 +54,7 @@
     </tbody>
 </table>
 
+<script src="js/dashboard.js"></script>
 <script src="/js/testsequencetabel.js"></script>
 </body>
 </html>

@@ -12,13 +12,13 @@ table {
 }
 
 th, td {
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     padding: 0.4rem 0.6rem;
     text-align: left;
 }
 
 th {
-    background: #f5f5f5;
+    background: #000000;
 }
 
 tr.module-row {
@@ -26,12 +26,12 @@ tr.module-row {
 }
 
 tr.module-row:hover {
-    background: #f0f0f0;
+    background: #041f8a;
 }
 
 /* Dropdown row */
 tr.details-row td {
-    background: #fafafa;
+    background: #000000;
 }
 
 .hidden {
@@ -51,6 +51,7 @@ tr.details-row td {
     font-size: 1rem;
     cursor: pointer;
     margin-right: 0.25rem;
+    color : white;
 }
 
 /* Ens styling til ALLE action-knapper (Vis/Delete/PDF/Create osv.) */
@@ -85,12 +86,12 @@ tr.details-row td {
 
 .packdata-table th,
 .packdata-table td {
-    border: 1px solid #ddd;
+    border: 1px solid #c0bebe;
     padding: 0.25rem 0.4rem;
 }
 
 .packdata-table th {
-    background: #f3f3f3;
+    background: #070707;
 }
 
 /* Header row inside dropdown (PackData detaljer + knapper) */
