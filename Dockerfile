@@ -5,6 +5,9 @@ WORKDIR /app
 
 COPY pom.xml .
 
+#cacher dependencies
+RUN mvn dependency:resolve
+
 COPY src ./src
 
 RUN mvn clean package -DskipTests

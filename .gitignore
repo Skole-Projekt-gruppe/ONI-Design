@@ -1,3 +1,7 @@
+data/diemdb.mv.db
+data/diemdb.lock.db
+data/diemdb.trace.db
+
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar

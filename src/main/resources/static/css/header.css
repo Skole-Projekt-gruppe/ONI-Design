@@ -1,0 +1,75 @@
+/* Reset / base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Sideheader */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background-color: #1f2933;
+    color: #ffffff;
+}
+
+/* Indhold i header */
+.header-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 24px 16px;
+}
+
+/* Logo */
+.logo {
+    margin-bottom: 40px;
+}
+
+.logo a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+/* Navigation */
+.main-nav ul {
+    list-style: none;
+}
+
+.main-nav li {
+    margin-bottom: 12px;
+}
+
+.main-nav a {
+    display: block;
+    padding: 10px 12px;
+    color: #d1d5db;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.main-nav a:hover {
+    background-color: #374151;
+    color: #ffffff;
+}
+
+/* Eksempel: aktiv side */
+.main-nav a.active {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+/* Plads til main content (vigtigt) */
+body {
+    margin-left: 240px;
+}

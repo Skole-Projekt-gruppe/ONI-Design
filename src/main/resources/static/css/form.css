@@ -7,33 +7,36 @@
 }
 
 body {
-    background: #f5f5f5;
+    background: #111;               /* Mørk baggrund */
     padding: 30px;
+    color: #e6e6e6;                 /* Lys tekst */
 }
 
 /* Form container */
 form {
     max-width: 900px;
     margin: 0 auto;
-    background: #ffffff;
+    background: #1a1a1a;            /* Mørk grå */
     padding: 25px 35px;
     border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    border: 1px solid #333;
 }
 
 /* Fieldset styling */
 fieldset {
-    border: 1px solid #ccc;
+    border: 1px solid #444;
     padding: 20px;
     margin-bottom: 30px;
     border-radius: 6px;
-    background: #fafafa;
+    background: #161616;            /* Lidt lysere end form */
 }
 
 legend {
     font-size: 1.2em;
     font-weight: bold;
     padding: 0 10px;
+    color: #f0f0f0;
 }
 
 /* Form rows */
@@ -47,23 +50,31 @@ legend {
 
 .form-row label {
     font-weight: bold;
+    color: #d0d0d0;
 }
 
 .form-row input,
 .form-row textarea {
     width: 100%;
     padding: 8px 10px;
-    border: 1px solid #bbb;
+    border: 1px solid #555;
     border-radius: 4px;
     font-size: 0.95em;
-    background: white;
+    background: #2a2a2a;
+    color: #eee;
+}
+
+.form-row input:focus,
+.form-row textarea:focus {
+    border-color: #888;
+    outline: none;
 }
 
 .form-row textarea {
     resize: vertical;
 }
 
-/* Button styling */
+/* Buttons */
 input[type="submit"],
 input[type="reset"] {
     padding: 10px 20px;
@@ -72,32 +83,25 @@ input[type="reset"] {
     margin-right: 10px;
     cursor: pointer;
     font-size: 1em;
+    transition: 0.2s;
 }
 
+/* Submit button: blå nuance som kontrast */
 input[type="submit"] {
-    background: #2176ff;
+    background: #0d6efd;
     color: white;
 }
 
 input[type="submit"]:hover {
-    background: #0b56d4;
+    background: #0a58ca;
 }
 
+/* Reset button: mørk grå */
 input[type="reset"] {
-    background: #ccc;
+    background: #444;
+    color: #e6e6e6;
 }
 
 input[type="reset"]:hover {
-    background: #b4b4b4;
-}
-
-/* Responsiv til mobil */
-@media (max-width: 600px) {
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    .form-row span {
-        justify-self: start;
-    }
+    background: #555;
 }
