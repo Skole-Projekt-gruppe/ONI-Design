@@ -43,7 +43,7 @@ async function loadPackDataIntoBox(module, box) {
     const goToTsBtn = document.createElement("button");
     goToTsBtn.type = "button";
     goToTsBtn.classList.add("edit-btn", "testsequence-btn");
-    goToTsBtn.textContent = "Vis TestSequences";
+    goToTsBtn.textContent = "Vis Test Sequences";
 
     goToTsBtn.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -99,8 +99,8 @@ async function loadPackDataIntoBox(module, box) {
     // Rækkefølgen i headeren – kan styles med flex i CSS
     headerRow.appendChild(h);
     headerRow.appendChild(goToTsBtn);
-    headerRow.appendChild(deleteModuleBtn);
     headerRow.appendChild(makePDFBtn);
+    headerRow.appendChild(deleteModuleBtn);
 
     box.appendChild(headerRow);
 
@@ -191,10 +191,7 @@ function createModuleRows(module) {
     // Kolonne 2: kort beskrivelse
     mainTr.appendChild(td(module.description));
 
-    // Kolonne 3: dato (pt. ikke brugt)
-    // mainTr.appendChild(td(formatDate(module.createdAt)));
-
-    // Kolonne 4: actions (kun pil)
+    // Kolonne 3: actions (kun pil)
     const actionsTd = document.createElement("td");
 
     const toggleBtn = document.createElement("button");
