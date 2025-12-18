@@ -1,8 +1,10 @@
+/* ===== Base ===== */
 body {
     font-family: system-ui, sans-serif;
     margin: 1.5rem;
 }
 
+/* ===== Table ===== */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -27,43 +29,22 @@ tr.module-row:hover {
     background: #f0f0f0;
 }
 
-/* række med ekstra info */
+/* Dropdown row */
 tr.details-row td {
     background: #fafafa;
 }
 
-/* skjul / vis */
 .hidden {
     display: none;
-}
-
-.toggle-btn {
-    border: none;
-    background: transparent;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-right: 0.5rem;
-}
-
-.edit-btn {
-    padding: 0.2rem 0.6rem;
-    font-size: 0.8rem;
-    cursor: pointer;
 }
 
 .details-box {
     padding: 0.5rem 0.75rem;
 }
 
-.packdata-list {
-    margin: 0.25rem 0 0 1rem;
-    padding: 0;
-}
-.packdata-list li {
-    list-style-type: disc;
-    margin-left: 1rem;
-}
+/* ===== Buttons ===== */
 
+/* Toggle arrow button */
 .toggle-btn {
     border: none;
     background: transparent;
@@ -72,14 +53,29 @@ tr.details-row td {
     margin-right: 0.25rem;
 }
 
-/* Edit-knapper inde i PackData-detaljer */
-.edit-btn {
-    padding: 0.15rem 0.5rem;
-    font-size: 0.75rem;
+/* Ens styling til ALLE action-knapper (Vis/Delete/PDF/Create osv.) */
+.edit-btn,
+.delete-btn,
+.testsequence-btn,
+.pdf-btn {
+    min-width: 140px;     /* gør dem ens brede */
+    height: 32px;         /* gør dem ens høje */
+    padding: 0 0.75rem;
+    font-size: 0.8rem;
     cursor: pointer;
+
+    display: inline-flex; /* centrer tekst pænt */
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
 }
 
-/* Lille tabel inde i dropdown */
+/* Farve på delete knap */
+.delete-btn {
+   background-color : #c92626;
+}
+
+/* ===== Inner table inside dropdown ===== */
 .packdata-table {
     margin-top: 0.5rem;
     border-collapse: collapse;
@@ -97,6 +93,7 @@ tr.details-row td {
     background: #f3f3f3;
 }
 
+/* Header row inside dropdown (PackData detaljer + knapper) */
 .details-box .packdata-header {
     display: flex;
     align-items: center;
@@ -104,9 +101,13 @@ tr.details-row td {
     margin-bottom: 0.5rem;
 }
 
-.testsequence-btn {
-    /* du kan tweake som du vil */
-    padding: 0.2rem 0.6rem;
-    font-size: 0.8rem;
-    cursor: pointer;
+/* (Hvis du stadig bruger packdata-list et sted) */
+.packdata-list {
+    margin: 0.25rem 0 0 1rem;
+    padding: 0;
+}
+
+.packdata-list li {
+    list-style-type: disc;
+    margin-left: 1rem;
 }
