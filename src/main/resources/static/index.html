@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>DIEM | Overview</title>
 
@@ -19,7 +19,17 @@
         <a class="tab active" href="/index.html">OVERVIEW</a>
         <a class="tab" href="/packdata.html">PACK DATA</a>
         <a class="tab" href="/ModuleTable.html">MODULE DATA</a>
-        <a class="tab" href="/TestSequenceTabel.html">TESTS</a>
+        <a id="test-btn" class="tab" href="/TestSequenceTabel.html">TESTS</a>
+        <script>
+            const btn = document.getElementById("test-btn");
+            btn.addEventListener("click", (event) => {
+                event.preventDefault();
+
+                const currentModuleId = new URLSearchParams(window.location.search);
+
+                window.location.href = `/TestSequenceTabel.html?${currentModuleId}`;
+            });
+        </script>
 
         <div class="module-picker">
             <label class="module-picker-label" for="moduleSelect">MODULE</label>

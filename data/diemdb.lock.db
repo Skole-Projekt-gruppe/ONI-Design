@@ -1,6 +1,6 @@
 #FileLock
-#Thu Dec 18 10:10:31 CET 2025
+#Thu Dec 18 10:28:00 CET 2025
 hostName=Station\u00E6r
-id=19b30b9a534d9205c281aeedeb84b9669903f35e500
+id=19b30c9a682eaae0b89dc4dc9473b44c06e4d8cbf02
 method=file
-server=192.168.1.136\:53014
+server=192.168.1.136\:54001
